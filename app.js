@@ -11,12 +11,6 @@ const banks = {
     "funny with a dark edge", "romantic and awkward", "quietly devastating", "wonder-filled",
     "urgent and cinematic", "nostalgic and intimate", "unsettling but beautiful"
   ],
-  style: [
-    "lyrical but clear", "sparse and minimalist", "cinematic and sharply paced", "confessional",
-    "mythic and timeless", "noir and hardboiled", "gothic and ornate", "plainspoken and intimate",
-    "satirical and precise", "fragmented and memory-driven", "lushly sensory", "crisp and modern",
-    "fairy-tale-like", "cold and clinical", "warm and conversational"
-  ],
   pov: [
     "first person, intimate and honest", "first person, unreliable", "close third person",
     "second person", "third person omniscient", "a diary entry", "a letter never sent",
@@ -123,7 +117,6 @@ const banks = {
 const labels = {
   genre: "Genre",
   mood: "Mood",
-  style: "Style",
   pov: "POV",
   character: "Main Character",
   setting: "Stage",
@@ -132,9 +125,9 @@ const labels = {
   conflict: "Pressure",
   element: "Motif",
   theme: "Theme",
-  craft: "Craft Focus",
+  craft: "Skill Constraint",
   ending: "Ending",
-  constraint: "Constraint"
+  constraint: "Hard Rule"
 };
 
 const titleWords = {
@@ -147,25 +140,21 @@ const modeHints = {
   cozy: {
     genre: ["cozy fantasy", "magical realism", "romantic comedy", "supernatural slice of life", "family drama"],
     mood: ["tender and hopeful", "warm but bittersweet", "wonder-filled", "nostalgic and intimate"],
-    style: ["plainspoken and intimate", "warm and conversational", "lyrical but clear"],
     conflict: ["the person they trust most has been lying for a kind reason", "they must decide whether safety is worth living inside a lie"]
   },
   strange: {
     genre: ["magical realism", "psychological horror", "cyberpunk thriller", "dark academia", "fairy tale retelling"],
     mood: ["dreamlike and strange", "unsettling but beautiful", "eerie and restrained"],
-    style: ["fragmented and memory-driven", "fairy-tale-like", "cold and clinical"],
     element: ["a clock with thirteen hours", "a machine that dreams", "a language only one person can hear"]
   },
   dark: {
     genre: ["gothic mystery", "psychological horror", "noir detective story", "post-apocalyptic survival", "dark academia"],
     mood: ["tense and claustrophobic", "bleak and elegant", "quietly devastating", "eerie and restrained"],
-    style: ["noir and hardboiled", "gothic and ornate", "sparse and minimalist"],
     ending: ["a tragic sacrifice", "a final betrayal", "an unresolved mystery"]
   },
   romantic: {
     genre: ["romantic comedy", "historical fiction", "magical realism", "family drama"],
     mood: ["romantic and awkward", "tender and hopeful", "warm but bittersweet"],
-    style: ["lushly sensory", "warm and conversational", "lyrical but clear"],
     craft: ["romantic tension", "subtext in dialogue", "emotional restraint"]
   }
 };
@@ -176,6 +165,78 @@ const intensityCopy = {
   3: "medium pressure",
   4: "high stakes",
   5: "everything burns"
+};
+
+const commonWords = new Set([
+  "about", "after", "again", "against", "because", "before", "being", "between", "could", "every",
+  "first", "found", "from", "have", "into", "just", "like", "little", "never", "other",
+  "over", "said", "same", "should", "their", "there", "these", "thing", "those", "through",
+  "under", "until", "would", "where", "which", "while", "with", "without", "your"
+]);
+
+const termDictionary = {
+  genre: {
+    "gothic mystery": "A mystery with old secrets, dark places, dread, and a sense that the setting itself is hiding something.",
+    "cozy fantasy": "A fantasy story where magic exists, but the tone is comforting, gentle, and low on brutality.",
+    "literary realism": "A realistic story focused on character, emotion, relationships, and everyday life instead of big plot twists.",
+    "space opera": "Big, dramatic science fiction with starships, planets, politics, battles, romance, or family-scale conflict.",
+    "psychological horror": "Horror driven by fear, obsession, guilt, paranoia, or a character losing trust in their own mind.",
+    "magical realism": "A mostly realistic world where one impossible thing is treated as normal or quietly accepted.",
+    "romantic comedy": "A funny, warm story about people stumbling toward love through awkwardness, conflict, and timing.",
+    "noir detective story": "A moody crime story with secrets, cynicism, moral gray areas, and a detective-like investigation.",
+    "post-apocalyptic survival": "A story set after a major collapse, focused on scarcity, danger, rebuilding, and human choices under pressure.",
+    "myth retelling": "A familiar myth reshaped with a new angle, setting, narrator, or emotional interpretation.",
+    "historical fiction": "A story set in a real past era, using period details while still centering character and plot.",
+    "cyberpunk thriller": "A fast, tense story in a high-tech world where corporations, surveillance, hackers, body modification, or digital power shape people's lives.",
+    "family drama": "A story where relatives, inheritance, memory, loyalty, or old wounds create the main tension.",
+    "dark academia": "A moody school or scholarly setting with ambition, secrets, beauty, obsession, and moral danger.",
+    "western": "A frontier story about law, survival, land, revenge, freedom, or uneasy justice.",
+    "fairy tale retelling": "A known fairy-tale pattern reimagined with a different voice, setting, ending, or moral center.",
+    "supernatural slice of life": "An everyday-life story with ghosts, magic, monsters, or strange events woven into ordinary routines.",
+    "political intrigue": "A story about power, alliances, secrets, betrayal, strategy, and who gets to make decisions."
+  },
+  pov: {
+    "first person, intimate and honest": "The narrator says I, stays close to their own feelings, and is trying to tell the truth.",
+    "first person, unreliable": "The narrator says I, but their version may be mistaken, biased, incomplete, or dishonest.",
+    "close third person": "The story says he, she, or they, but stays tightly inside one character's experience.",
+    "second person": "The story addresses the main character as you, creating a direct or uncanny feeling.",
+    "third person omniscient": "An outside narrator can move between people, places, and hidden knowledge.",
+    "a diary entry": "The story is written like a private dated entry, close to thought and confession.",
+    "a letter never sent": "The story is addressed to someone, but carries things the writer could not say aloud.",
+    "a transcript of testimony": "The story reads like recorded speech from an interview, hearing, trial, or investigation.",
+    "multiple brief POV sections": "The story jumps between short sections from different characters' views.",
+    "a narrator speaking from years later": "The narrator looks back with distance, hindsight, regret, or changed understanding.",
+    "a collective we narrator": "A group tells the story together as we, creating a community voice."
+  },
+  craft: {
+    "sensory detail": "Use sight, sound, smell, touch, and taste to make the scene feel physically present.",
+    "subtext in dialogue": "Characters talk around what they really mean instead of saying everything directly.",
+    "slow-building tension": "Let unease or pressure grow gradually instead of rushing to the biggest moment.",
+    "atmosphere": "Make the mood of the place feel strong enough to affect the reader.",
+    "a strong opening image": "Begin with a vivid concrete picture the reader can immediately see.",
+    "internal conflict": "Focus on what the character wants versus what they fear, believe, or cannot admit.",
+    "romantic tension": "Let attraction, uncertainty, timing, and emotional risk create pressure between people.",
+    "moral ambiguity": "Make the right choice unclear, with believable reasons on more than one side.",
+    "worldbuilding through action": "Reveal how the world works by what characters do, not by explaining it upfront.",
+    "foreshadowing": "Plant small details that gain meaning later.",
+    "a repeated image used three times": "Bring back one visual detail at the beginning, middle, and end with changing meaning.",
+    "emotional restraint": "Let feeling show through action, image, silence, or small choices instead of big explanation.",
+    "voice": "Make the narration sound like a specific mind, not a neutral summary.",
+    "a memorable final line": "End on a sentence that lands with image, emotion, surprise, or resonance."
+  },
+  ending: {
+    "a bittersweet revelation": "The truth arrives with both comfort and loss.",
+    "a quiet emotional realization": "The ending turns on a private understanding rather than a loud event.",
+    "a shocking twist": "The final turn changes what the reader thought was happening.",
+    "a victory with a cost": "The character wins something, but pays for it.",
+    "an unresolved mystery": "The story closes emotionally while leaving one factual question open.",
+    "a final betrayal": "Someone's last action reveals broken trust.",
+    "a hopeful final image": "The last impression suggests possibility, healing, or continuation.",
+    "a tragic sacrifice": "Someone gives up something vital, and the loss defines the ending.",
+    "a circular ending that echoes the first line": "The ending reflects the beginning, but with changed meaning.",
+    "a transformation": "Someone or something becomes fundamentally different by the end.",
+    "a confession that changes the meaning of the story": "A revealed truth makes earlier events read differently."
+  }
 };
 
 const state = {};
@@ -189,6 +250,7 @@ const storageKeys = {
 
 const controls = document.querySelector("#controls");
 const promptOutput = document.querySelector("#promptOutput");
+const termGlossary = document.querySelector("#termGlossary");
 const todayStatus = document.querySelector("#todayStatus");
 const todayWords = document.querySelector("#todayWords");
 const todayMeter = document.querySelector("#todayMeter");
@@ -206,6 +268,7 @@ const promptMode = document.querySelector("#promptMode");
 const intensity = document.querySelector("#intensity");
 const intensityLabel = document.querySelector("#intensityLabel");
 const storyNotes = document.querySelector("#storyNotes");
+const draftGrade = document.querySelector("#draftGrade");
 const revisionSignals = document.querySelector("#revisionSignals");
 const timerDisplay = document.querySelector("#timerDisplay");
 const timerMeter = document.querySelector("#timerMeter");
@@ -318,18 +381,8 @@ function randomize(ignoreLocks = false) {
 function buildBrief() {
   const title = `The ${choice(titleWords.first)} ${choice(titleWords.second)}`;
   const openingLine = openingLineFor(state);
-  const heat = Number(intensity?.value ?? 3);
-  const pressureVerb = heat >= 4 ? "corner" : heat <= 2 ? "nudge" : "pressure";
-  const endingDemand = heat >= 4 ? "make the consequence visible immediately" : heat <= 2 ? "leave one gentle uncertainty" : "returning to one concrete image from the first 150 words";
-  const beats = [
-    `Open in ${state.setting} as ${state.character} ${state.opening}.`,
-    `Reveal that they want ${state.desire}, but make them avoid saying it directly.`,
-    `Let ${state.element} become impossible to ignore, then ${pressureVerb} the character with this pressure: ${state.conflict}.`,
-    `Force a choice that tests ${state.theme}.`,
-    `End with ${state.ending}; ${endingDemand}.`
-  ];
 
-  return { title, openingLine, beats };
+  return { title, openingLine };
 }
 
 function openingLineFor(values) {
@@ -356,7 +409,6 @@ function composePrompt() {
     <div class="brief-body">
       <div class="brief-grid">
         ${briefChip("Narrator", state.pov)}
-        ${briefChip("Style", state.style)}
         ${briefChip("Theme", state.theme)}
         ${briefChip("Lead", state.character)}
         ${briefChip("Stage", state.setting)}
@@ -365,22 +417,56 @@ function composePrompt() {
       <div class="mission-card">
         <p>Write a complete 1,000-word <strong>${escapeHtml(state.genre)}</strong> story with a <strong>${escapeHtml(state.mood)}</strong> atmosphere and <strong>${escapeHtml(intensityCopy[intensity.value])}</strong>.</p>
         <p>The character wants <strong>${escapeHtml(state.desire)}</strong>, but the pressure is that <strong>${escapeHtml(state.conflict)}</strong>.</p>
-        <p>Use <strong>${escapeHtml(state.craft)}</strong> as the craft focus. The ending should land as <strong>${escapeHtml(state.ending)}</strong>.</p>
+        <p>Skill constraint: use <strong>${escapeHtml(state.craft)}</strong>. The ending should land as <strong>${escapeHtml(state.ending)}</strong>.</p>
+        <p><strong>Hard rule:</strong> ${escapeHtml(state.constraint)}</p>
       </div>
-      <ol class="brief-list">
-        ${currentBrief.beats.map((beat) => `<li>${escapeHtml(beat)}</li>`).join("")}
-      </ol>
-      <ul class="brief-list">
-        <li>Keep the story self-contained with a clear beginning, middle, and end.</li>
-        <li>Include one meaningful choice.</li>
-        <li>${escapeHtml(state.constraint)}</li>
-      </ul>
     </div>
   `;
+  renderGlossary();
+  updateDraftStats();
 }
 
 function briefChip(label, value) {
   return `<div class="brief-chip"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`;
+}
+
+function renderGlossary() {
+  const items = [
+    glossaryEntry("Genre", state.genre, explainTerm("genre", state.genre)),
+    glossaryEntry("Mood", state.mood, explainMood(state.mood)),
+    glossaryEntry("POV", state.pov, explainTerm("pov", state.pov)),
+    glossaryEntry("Motif", state.element, "A recurring object, image, place, or idea that gathers meaning as the story goes."),
+    glossaryEntry("Theme", state.theme, "The deeper question underneath the plot. You do not need to state it directly; let the story test it."),
+    glossaryEntry("Skill Constraint", state.craft, explainTerm("craft", state.craft)),
+    glossaryEntry("Ending", state.ending, explainTerm("ending", state.ending)),
+    glossaryEntry("Hard Rule", state.constraint, "A firm limitation for this draft. Treat it as non-negotiable so it forces you to find a less obvious solution.")
+  ];
+
+  termGlossary.innerHTML = items.map((item) => `
+    <details class="term-card">
+      <summary><span>${escapeHtml(item.label)}</span><strong>${escapeHtml(item.term)}</strong></summary>
+      <p>${escapeHtml(item.definition)}</p>
+    </details>
+  `).join("");
+}
+
+function glossaryEntry(label, term, definition) {
+  return { label, term, definition };
+}
+
+function explainTerm(category, term) {
+  return termDictionary[category]?.[term] ?? "A prompt ingredient. Use it as a direction, not a rule you have to obey perfectly.";
+}
+
+function explainMood(term) {
+  const parts = [];
+  if (/eerie|unsettling|claustrophobic|bleak|dark/i.test(term)) parts.push("lean into unease, shadow, dread, or pressure");
+  if (/tender|hopeful|warm|wonder|romantic|nostalgic/i.test(term)) parts.push("let softness, affection, memory, or possibility shape the scene");
+  if (/funny|wry|awkward/i.test(term)) parts.push("use humor, timing, or social discomfort");
+  if (/melancholy|devastating|bittersweet/i.test(term)) parts.push("let sadness and beauty sit together");
+  if (/urgent|cinematic|fast/i.test(term)) parts.push("keep the action moving and make choices feel immediate");
+  if (/dreamlike|strange|luminous/i.test(term)) parts.push("make reality feel slightly bent, vivid, or uncanny");
+  return `The emotional weather of the story: ${parts.join("; ") || "choose details and pacing that create this feeling"}.`;
 }
 
 function promptText() {
@@ -476,44 +562,146 @@ function updateDraftStats() {
 
 function renderRevisionSignals(words = countWords(draftText.value)) {
   const text = draftText.value.trim();
-  const paragraphs = text ? text.split(/\n\s*\n/).filter(Boolean).length : 0;
-  const dialogueMarks = (text.match(/"/g) || []).length;
+  const paragraphs = paragraphCount(text);
+  const sentences = sentenceCount(text);
+  const dialogueMarks = (text.match(/["\u201c\u201d]/g) || []).length;
   const ending = text.split(/\s+/).slice(-35).join(" ");
-  const hasMotif = state.element && text.toLowerCase().includes(state.element.toLowerCase().split(" ")[1] || state.element.toLowerCase());
+  const lowerText = text.toLowerCase();
+  const motifToken = strongestWord(state.element);
+  const characterToken = strongestWord(state.character);
+  const settingToken = strongestWord(state.setting);
+  const desireToken = strongestWord(state.desire);
+  const conflictToken = strongestWord(state.conflict);
+  const hasMotif = Boolean(motifToken && lowerText.includes(motifToken));
+  const hasCharacter = Boolean(characterToken && lowerText.includes(characterToken));
+  const hasSetting = Boolean(settingToken && lowerText.includes(settingToken));
+  const hasPromptPressure = Boolean((desireToken && lowerText.includes(desireToken)) || (conflictToken && lowerText.includes(conflictToken)));
+  const repeated = repeatedWords(text);
+  const lengthScore = scoreBetween(words, 850, 1000, 18);
+  const structureScore = Math.min(16, paragraphs * 3 + sentences);
+  const promptFitScore = [hasMotif, hasCharacter, hasSetting, hasPromptPressure].filter(Boolean).length * 4;
+  const voiceScore = Math.min(14, Math.round(uniqueWordRatio(text) * 28));
+  const dialogueScore = Math.min(10, dialogueMarks * 2);
+  const polishPenalty = Math.min(12, repeated.length * 2);
+  const polishScore = words > 0 ? Math.max(0, 12 - polishPenalty) : 0;
+  const finalScore = words >= 950 ? 14 : words > 0 ? 6 : 0;
+  const totalScore = clamp(lengthScore + structureScore + promptFitScore + voiceScore + dialogueScore + polishScore + finalScore, 0, 100);
+  const grade = gradeForScore(totalScore);
   const signals = [
     {
-      title: words >= 1000 ? "Length is there" : "Build toward the full thousand",
-      body: words >= 1000 ? "You have enough clay to revise from." : `${Math.max(0, 1000 - words).toLocaleString()} words left before today's target.`,
-      good: words >= 1000
+      title: "Length",
+      body: words >= 950 ? `${words.toLocaleString()} words is close enough to revise from.` : `${Math.max(0, 1000 - words).toLocaleString()} words left before today's target.`,
+      points: lengthScore,
+      max: 18,
+      good: words >= 950
     },
     {
-      title: paragraphs >= 5 ? "Shape has movement" : "Add visible turns",
-      body: paragraphs >= 5 ? `${paragraphs} paragraphs gives the reader some rhythm.` : "Try splitting the draft into hook, want, pressure, choice, and afterimage.",
+      title: "Shape",
+      body: paragraphs >= 5 ? `${paragraphs} paragraphs gives the reader some rhythm.` : "Add a few paragraph breaks so the story has visible turns.",
+      points: structureScore,
+      max: 16,
       good: paragraphs >= 5
     },
     {
-      title: dialogueMarks >= 4 ? "Voices are present" : "Check the spoken pressure",
-      body: dialogueMarks >= 4 ? "There is enough dialogue to look for subtext." : "Consider one exchange where nobody says the real problem directly.",
-      good: dialogueMarks >= 4
+      title: promptFitScore >= 12 ? "Prompt fit" : "Prompt fit",
+      body: promptFitScore >= 12 ? "The draft appears to connect to several pieces of the prompt." : "Look for one more clear link to the character, setting, motif, desire, or pressure.",
+      points: promptFitScore,
+      max: 16,
+      good: promptFitScore >= 12
     },
     {
-      title: hasMotif ? "Motif appears in the draft" : "Bring back the motif",
-      body: hasMotif ? `The draft seems to touch ${state.element}.` : `Look for one place to echo ${state.element}.`,
-      good: hasMotif
+      title: dialogueMarks >= 4 ? "Voice and dialogue" : "Voice and dialogue",
+      body: dialogueMarks >= 4 ? "There is enough spoken texture to revise for subtext." : "One short exchange could give the story more pressure and personality.",
+      points: voiceScore + dialogueScore,
+      max: 24,
+      good: voiceScore + dialogueScore >= 14
     },
     {
-      title: "Final image check",
+      title: repeated.length ? "Polish" : "Polish",
+      body: repeated.length ? `Watch repeated words: ${repeated.slice(0, 4).join(", ")}.` : "No obvious repeated-word tics jumped out.",
+      points: polishScore,
+      max: 12,
+      good: repeated.length <= 1
+    },
+    {
+      title: "Final image",
       body: ending || "When you finish, make the last sentence leave an image instead of an explanation.",
+      points: finalScore,
+      max: 14,
       good: words >= 950
     }
   ];
 
+  draftGrade.innerHTML = `
+    <div class="grade-ring" aria-label="Draft score ${totalScore} out of 100">${totalScore}</div>
+    <div>
+      <strong>${escapeHtml(grade.label)}</strong>
+      <span>${escapeHtml(grade.note)}</span>
+    </div>
+  `;
   revisionSignals.innerHTML = signals.map((signal) => `
     <div class="signal-card ${signal.good ? "good" : "warn"}">
-      <strong>${escapeHtml(signal.title)}</strong>
+      <strong>${escapeHtml(signal.title)} <em>${signal.points}/${signal.max}</em></strong>
       <span>${escapeHtml(signal.body)}</span>
     </div>
   `).join("");
+}
+
+function scoreBetween(value, low, high, max) {
+  if (value >= high) return max;
+  if (value <= 0) return 0;
+  if (value >= low) return Math.round(max * 0.8);
+  return Math.round((value / low) * max * 0.8);
+}
+
+function gradeForScore(score) {
+  if (score >= 85) return { label: "Strong draft", note: "You have a real story shape here. Revise for sharper choices and cleaner sentences." };
+  if (score >= 70) return { label: "Promising draft", note: "The foundation is working. Add pressure, specificity, or a stronger ending image." };
+  if (score >= 45) return { label: "Early draft", note: "Good start. Build the middle, connect more prompt pieces, and get closer to 1,000 words." };
+  return { label: "Just started", note: "No judgment yet. Get words on the page first; the scorecard gets useful once there is more draft to read." };
+}
+
+function paragraphCount(text) {
+  if (!text) return 0;
+  return text.split(/\n\s*\n/).filter((paragraph) => paragraph.trim().length > 0).length;
+}
+
+function sentenceCount(text) {
+  if (!text) return 0;
+  return (text.match(/[.!?]+(?:\s|$)/g) || []).length;
+}
+
+function uniqueWordRatio(text) {
+  const words = wordList(text).filter((word) => word.length > 3);
+  if (!words.length) return 0;
+  return new Set(words).size / words.length;
+}
+
+function repeatedWords(text) {
+  const counts = {};
+  wordList(text)
+    .filter((word) => word.length > 4 && !commonWords.has(word))
+    .forEach((word) => {
+      counts[word] = (counts[word] || 0) + 1;
+    });
+  return Object.entries(counts)
+    .filter(([, count]) => count >= 6)
+    .sort((a, b) => b[1] - a[1])
+    .map(([word]) => word);
+}
+
+function strongestWord(text) {
+  return wordList(text)
+    .filter((word) => word.length > 3 && !commonWords.has(word))
+    .sort((a, b) => b.length - a.length)[0] ?? "";
+}
+
+function wordList(text) {
+  return String(text).toLowerCase().match(/[a-z0-9]+(?:['-][a-z0-9]+)*/g) || [];
+}
+
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
 }
 
 function saveDraft() {
