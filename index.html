@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Daily 1000 Prompt Studio</title>
+    <meta name="description" content="A daily 1,000-word creative writing prompt studio with drafts, notes, timers, and progress tracking.">
+    <meta name="theme-color" content="#146c94">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Daily 1000">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="icon" href="icons/icon-192.png">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Daily short story practice</p>
+          <h1>Daily 1000 Prompt Studio</h1>
+          <p class="lede">Draw a story brief with a title, opening line, cast pressure, motif, and five-scene map. Lock the pieces that spark, reroll the rest, then upload today's 1,000 words.</p>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="paper-stack stack-one"></div>
+          <div class="paper-stack stack-two"></div>
+          <div class="ink-moon"></div>
+          <div class="spark spark-a"></div>
+          <div class="spark spark-b"></div>
+          <div class="type-card">
+            <span>Opening line</span>
+            <strong id="heroLine">A letter arrives with tomorrow's rain on it.</strong>
+          </div>
+        </div>
+
+        <div class="goal-card" aria-label="Daily writing progress">
+          <span class="goal-label">Today</span>
+          <strong id="todayStatus">Not written yet</strong>
+          <div class="mini-meter" aria-hidden="true"><span id="todayMeter"></span></div>
+          <span id="todayWords" class="goal-note">0 / 1,000 words uploaded</span>
+          <button id="markWrittenBtn" class="primary-btn" type="button">Log Current Draft</button>
+          <button id="resetTodayBtn" class="ghost-btn" type="button">Reset Today</button>
+        </div>
+      </section>
+
+      <section class="app-banner" aria-label="App install and offline status">
+        <div>
+          <strong id="appStatus">PWA-ready shell</strong>
+          <span id="appStatusDetail">Host this over HTTPS to install it on your phone and cache the app shell.</span>
+        </div>
+        <button id="installAppBtn" class="primary-btn" type="button" hidden>Install App</button>
+      </section>
+
+      <section class="workspace" aria-label="Prompt generator">
+        <aside class="panel controls-panel">
+          <div class="panel-heading">
+            <h2>Story Deck</h2>
+            <button id="randomizeAllBtn" class="icon-btn" type="button" title="Reroll unlocked parts" aria-label="Reroll unlocked parts">R</button>
+          </div>
+
+          <div class="deck-options" aria-label="Prompt mode options">
+            <label for="promptMode">
+              Prompt Mode
+              <select id="promptMode">
+                <option value="balanced">Balanced</option>
+                <option value="cozy">Cozy</option>
+                <option value="strange">Strange</option>
+                <option value="dark">Dark</option>
+                <option value="romantic">Romantic</option>
+              </select>
+            </label>
+            <label for="intensity">
+              Intensity
+              <input id="intensity" type="range" min="1" max="5" value="3">
+            </label>
+            <span id="intensityLabel" class="option-note">medium pressure</span>
+          </div>
+
+          <div id="controls" class="controls"></div>
+
+          <div class="actions">
+            <button id="composeBtn" class="primary-btn" type="button">Compose Brief</button>
+            <button id="surpriseBtn" class="secondary-btn" type="button">Surprise Me</button>
+          </div>
+        </aside>
+
+        <section class="panel prompt-panel">
+          <div class="panel-heading">
+            <h2>Today's Brief</h2>
+            <div class="button-row">
+              <button id="copyBtn" class="ghost-btn" type="button">Copy</button>
+              <button id="saveBtn" class="ghost-btn" type="button">Save</button>
+            </div>
+          </div>
+
+          <article id="promptOutput" class="prompt-output" aria-live="polite"></article>
+
+          <div class="story-map" aria-label="Suggested 1000 word structure">
+            <div><strong>0-150</strong><span>Hook</span></div>
+            <div><strong>150-350</strong><span>Want</span></div>
+            <div><strong>350-650</strong><span>Pressure</span></div>
+            <div><strong>650-850</strong><span>Choice</span></div>
+            <div><strong>850-1000</strong><span>Afterimage</span></div>
+          </div>
+        </section>
+      </section>
+
+      <section id="draft" class="panel upload-panel" aria-label="Upload today's 1000 words">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow compact">Draft check-in</p>
+            <h2>Upload or Paste Today's 1,000 Words</h2>
+          </div>
+          <span id="draftStatus" class="stat-pill warm">Awaiting draft</span>
+        </div>
+
+        <div class="upload-grid">
+          <label class="drop-zone" for="storyUpload">
+            <input id="storyUpload" type="file" accept=".txt,.md,text/plain,text/markdown">
+            <span class="drop-icon">TXT</span>
+            <strong>Choose a text or markdown file</strong>
+            <small>Your draft stays in this browser.</small>
+          </label>
+
+          <div class="draft-tools">
+            <textarea id="draftText" placeholder="Paste your story here, or upload a .txt/.md file. The app will count the words and log your actual total."></textarea>
+            <div class="draft-footer">
+              <div>
+                <strong id="wordCount">0 words</strong>
+                <span id="wordDelta">1,000 to go</span>
+              </div>
+              <div class="button-row">
+                <button id="clearDraftBtn" class="ghost-btn" type="button">Clear Draft</button>
+                <button id="saveDraftBtn" class="secondary-btn" type="button">Save Draft</button>
+              </div>
+            </div>
+            <div class="word-meter" aria-label="Word count progress"><span id="wordMeter"></span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cockpit-grid" aria-label="Writing session tools">
+        <section class="panel timer-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow compact">Focus room</p>
+              <h2>Writing Timer</h2>
+            </div>
+            <strong id="timerDisplay" class="timer-display">25:00</strong>
+          </div>
+          <div class="timer-controls">
+            <button class="ghost-btn timer-preset" type="button" data-minutes="15">15</button>
+            <button class="ghost-btn timer-preset" type="button" data-minutes="25">25</button>
+            <button class="ghost-btn timer-preset" type="button" data-minutes="45">45</button>
+            <button id="timerStartBtn" class="primary-btn" type="button">Start</button>
+            <button id="timerResetBtn" class="ghost-btn" type="button">Reset</button>
+          </div>
+          <div class="timer-meter" aria-hidden="true"><span id="timerMeter"></span></div>
+        </section>
+
+        <section class="panel notes-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow compact">Scratchpad</p>
+              <h2>Notes Before You Draft</h2>
+            </div>
+            <button id="saveNotesBtn" class="ghost-btn" type="button">Save Notes</button>
+          </div>
+          <textarea id="storyNotes" class="notes-box" placeholder="One sentence about what changes. One image to repeat. One thing the character refuses to say."></textarea>
+        </section>
+
+        <section class="panel revision-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow compact">After the upload</p>
+              <h2>Revision Signals</h2>
+            </div>
+            <button id="exportDraftBtn" class="secondary-btn" type="button">Export Draft</button>
+          </div>
+          <div id="revisionSignals" class="revision-signals"></div>
+        </section>
+      </section>
+
+      <section class="lower-grid">
+        <section class="panel">
+          <div class="panel-heading">
+            <h2>Daily Log</h2>
+            <span id="streakCount" class="stat-pill">0 day streak</span>
+          </div>
+          <ul id="dailyLog" class="daily-log"></ul>
+        </section>
+
+        <section class="panel">
+          <div class="panel-heading">
+            <h2>Saved Prompts</h2>
+            <button id="clearSavedBtn" class="ghost-btn" type="button">Clear</button>
+          </div>
+          <ul id="savedPrompts" class="saved-prompts"></ul>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
