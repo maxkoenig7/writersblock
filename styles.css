@@ -286,6 +286,11 @@ h2 {
   margin-bottom: 16px;
 }
 
+.compact-heading {
+  min-height: 0;
+  margin: 18px 0 10px;
+}
+
 .button-row,
 .actions {
   display: flex;
@@ -296,6 +301,65 @@ h2 {
 .controls {
   display: grid;
   gap: 12px;
+}
+
+.generate-action {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 2px;
+  font-size: 1rem;
+}
+
+.tune-panel {
+  margin-top: 12px;
+  border: 1px solid #d9d2c5;
+  border-radius: 8px;
+  background: #fffdf8;
+}
+
+.tune-panel summary {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  min-height: 48px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  cursor: pointer;
+  font-weight: 850;
+}
+
+.tune-panel summary::after {
+  content: "+";
+  width: 20px;
+  color: var(--blue);
+  font-size: 1.2rem;
+  line-height: 1;
+  text-align: center;
+}
+
+.tune-panel[open] summary::after {
+  content: "-";
+}
+
+.tune-panel summary small {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 750;
+}
+
+.tune-panel[open] summary {
+  border-bottom: 1px solid #e4ddd0;
+}
+
+.tune-body {
+  display: grid;
+  gap: 14px;
+  padding: 12px;
+}
+
+.reroll-action {
+  width: 100%;
 }
 
 .deck-options {
@@ -430,11 +494,11 @@ select {
 
 .prompt-panel {
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto auto auto;
+  align-self: start;
 }
 
 .prompt-output {
-  min-height: 500px;
   border: 1px solid #d9d2c5;
   border-radius: 8px;
   padding: 0;
@@ -482,7 +546,7 @@ select {
 
 .brief-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
 }
 
@@ -523,35 +587,56 @@ select {
   margin-bottom: 0;
 }
 
-.brief-list {
-  margin: 0;
-  padding-left: 20px;
+.glossary-panel {
+  margin-top: 12px;
 }
 
-.story-map {
+.term-glossary {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-  margin-top: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
 }
 
-.story-map div {
-  min-height: 74px;
-  border-top: 4px solid var(--gold);
+.term-card {
+  border: 1px solid #d9d2c5;
   border-radius: 8px;
-  padding: 10px;
+  background: #fffdf8;
+}
+
+.term-card[open] {
   background: #fff8e8;
 }
 
-.story-map strong,
-.story-map span {
-  display: block;
+.term-card summary {
+  display: grid;
+  gap: 4px;
+  min-height: 68px;
+  padding: 12px;
+  cursor: pointer;
+  list-style: none;
 }
 
-.story-map span {
-  margin-top: 4px;
+.term-card summary::-webkit-details-marker {
+  display: none;
+}
+
+.term-card summary span {
   color: var(--muted);
-  font-size: 0.88rem;
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.term-card summary strong {
+  line-height: 1.25;
+}
+
+.term-card p {
+  margin: 0;
+  border-top: 1px solid #eadfcf;
+  padding: 0 12px 12px;
+  color: #4f5b64;
+  line-height: 1.45;
 }
 
 .upload-panel {
@@ -615,6 +700,45 @@ select {
   gap: 10px;
 }
 
+.draft-grade {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+  border: 1px solid rgba(20, 108, 148, 0.24);
+  border-radius: 8px;
+  padding: 12px;
+  background: #f0f7f8;
+}
+
+.draft-grade strong,
+.draft-grade span {
+  display: block;
+}
+
+.draft-grade strong {
+  margin-bottom: 4px;
+}
+
+.draft-grade span {
+  color: var(--muted);
+  line-height: 1.42;
+}
+
+.grade-ring {
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 68px;
+  border: 6px solid var(--blue);
+  border-radius: 50%;
+  color: var(--blue-dark);
+  background: #fff;
+  font-size: 1.35rem;
+  font-weight: 950;
+}
+
 .signal-card {
   border: 1px solid #dce3e8;
   border-radius: 8px;
@@ -623,8 +747,16 @@ select {
 }
 
 .signal-card strong {
-  display: block;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
   margin-bottom: 4px;
+}
+
+.signal-card em {
+  color: var(--muted);
+  font-style: normal;
+  white-space: nowrap;
 }
 
 .signal-card span {
@@ -809,15 +941,12 @@ textarea {
     min-height: 210px;
   }
 
-  .story-map,
   .brief-grid,
+  .term-glossary,
   .deck-options {
     grid-template-columns: 1fr;
   }
 
-  .prompt-output {
-    min-height: 320px;
-  }
 }
 
 @media (max-width: 560px) {

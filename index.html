@@ -20,7 +20,7 @@
         <div class="hero-copy">
           <p class="eyebrow">Daily short story practice</p>
           <h1>Daily 1000 Prompt Studio</h1>
-          <p class="lede">Draw a story brief with a title, opening line, cast pressure, motif, and five-scene map. Lock the pieces that spark, reroll the rest, then upload today's 1,000 words.</p>
+          <p class="lede">Draw a story brief with a title, opening line, cast pressure, motif, and plain-language definitions. Lock the pieces that spark, reroll the rest, then upload today's 1,000 words.</p>
         </div>
 
         <div class="hero-visual" aria-hidden="true">
@@ -57,7 +57,6 @@
         <aside class="panel controls-panel">
           <div class="panel-heading">
             <h2>Story Deck</h2>
-            <button id="randomizeAllBtn" class="icon-btn" type="button" title="Reroll unlocked parts" aria-label="Reroll unlocked parts">R</button>
           </div>
 
           <div class="deck-options" aria-label="Prompt mode options">
@@ -78,12 +77,18 @@
             <span id="intensityLabel" class="option-note">medium pressure</span>
           </div>
 
-          <div id="controls" class="controls"></div>
+          <button id="generatePromptBtn" class="primary-btn generate-action" type="button" title="Draw a completely new prompt">Generate Prompt</button>
 
-          <div class="actions">
-            <button id="composeBtn" class="primary-btn" type="button">Compose Brief</button>
-            <button id="surpriseBtn" class="secondary-btn" type="button">Surprise Me</button>
-          </div>
+          <details class="tune-panel">
+            <summary>
+              <span>Tune Prompt</span>
+              <small>11 ingredients</small>
+            </summary>
+            <div class="tune-body">
+              <div id="controls" class="controls"></div>
+              <button id="rerollUnlockedBtn" class="secondary-btn reroll-action" type="button">Reroll Unlocked</button>
+            </div>
+          </details>
         </aside>
 
         <section class="panel prompt-panel">
@@ -97,13 +102,13 @@
 
           <article id="promptOutput" class="prompt-output" aria-live="polite"></article>
 
-          <div class="story-map" aria-label="Suggested 1000 word structure">
-            <div><strong>0-150</strong><span>Hook</span></div>
-            <div><strong>150-350</strong><span>Want</span></div>
-            <div><strong>350-650</strong><span>Pressure</span></div>
-            <div><strong>650-850</strong><span>Choice</span></div>
-            <div><strong>850-1000</strong><span>Afterimage</span></div>
-          </div>
+          <section class="glossary-panel" aria-label="Prompt term dictionary">
+            <div class="panel-heading compact-heading">
+              <h2>Prompt Dictionary</h2>
+              <span class="option-note">Plain-English meanings for today's terms</span>
+            </div>
+            <div id="termGlossary" class="term-glossary"></div>
+          </section>
         </section>
       </section>
 
@@ -175,10 +180,11 @@
           <div class="panel-heading">
             <div>
               <p class="eyebrow compact">After the upload</p>
-              <h2>Revision Signals</h2>
+              <h2>Draft Scorecard</h2>
             </div>
             <button id="exportDraftBtn" class="secondary-btn" type="button">Export Draft</button>
           </div>
+          <div id="draftGrade" class="draft-grade"></div>
           <div id="revisionSignals" class="revision-signals"></div>
         </section>
       </section>

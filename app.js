@@ -34,20 +34,6 @@ const banks = {
     "a lighthouse after the lamp goes out", "a colony ship garden where nothing should bloom",
     "a funeral home on the morning of the wrong funeral", "a museum gallery after closing"
   ],
-  opening: [
-    "receives a letter that arrives twenty years late",
-    "finds a door where there was only a wall yesterday",
-    "hears their own name spoken by someone who should not know it",
-    "wakes up with someone else's memory",
-    "discovers their shadow is missing",
-    "is invited to a wedding where nobody knows the couple",
-    "finds a map showing a country that does not exist",
-    "gets a voicemail from their own number",
-    "returns home and finds the house has grown a new room",
-    "is given a key by a stranger who vanishes before explaining it",
-    "sees a photograph change while they are holding it",
-    "learns that everyone in town forgot the same person overnight"
-  ],
   desire: [
     "to be forgiven without having to confess",
     "to keep one ordinary day from turning into a disaster",
@@ -80,12 +66,6 @@ const banks = {
     "a train that only arrives at midnight", "a tattoo that moves",
     "a forbidden garden", "a broken crown", "a machine that dreams",
     "a suitcase full of impossible objects", "a language only one person can hear"
-  ],
-  theme: [
-    "the cost of being believed", "what love asks people to hide", "the danger of inherited stories",
-    "choosing mercy over certainty", "the small violence of silence", "how grief edits memory",
-    "the difference between escape and freedom", "why people protect beautiful lies",
-    "the loneliness of being right too soon", "the courage to disappoint someone"
   ],
   craft: [
     "sensory detail", "subtext in dialogue", "slow-building tension", "atmosphere",
@@ -120,11 +100,9 @@ const labels = {
   pov: "POV",
   character: "Main Character",
   setting: "Stage",
-  opening: "Trigger",
   desire: "Hidden Want",
   conflict: "Pressure",
   element: "Motif",
-  theme: "Theme",
   craft: "Skill Constraint",
   ending: "Ending",
   constraint: "Hard Rule"
@@ -409,7 +387,6 @@ function composePrompt() {
     <div class="brief-body">
       <div class="brief-grid">
         ${briefChip("Narrator", state.pov)}
-        ${briefChip("Theme", state.theme)}
         ${briefChip("Lead", state.character)}
         ${briefChip("Stage", state.setting)}
         ${briefChip("Motif", state.element)}
@@ -436,7 +413,6 @@ function renderGlossary() {
     glossaryEntry("Mood", state.mood, explainMood(state.mood)),
     glossaryEntry("POV", state.pov, explainTerm("pov", state.pov)),
     glossaryEntry("Motif", state.element, "A recurring object, image, place, or idea that gathers meaning as the story goes."),
-    glossaryEntry("Theme", state.theme, "The deeper question underneath the plot. You do not need to state it directly; let the story test it."),
     glossaryEntry("Skill Constraint", state.craft, explainTerm("craft", state.craft)),
     glossaryEntry("Ending", state.ending, explainTerm("ending", state.ending)),
     glossaryEntry("Hard Rule", state.constraint, "A firm limitation for this draft. Treat it as non-negotiable so it forces you to find a less obvious solution.")
@@ -974,9 +950,8 @@ async function installApp() {
   installAppBtn.hidden = true;
 }
 
-document.querySelector("#randomizeAllBtn").addEventListener("click", () => randomize(false));
-document.querySelector("#surpriseBtn").addEventListener("click", () => randomize(true));
-document.querySelector("#composeBtn").addEventListener("click", composePrompt);
+document.querySelector("#generatePromptBtn").addEventListener("click", () => randomize(true));
+document.querySelector("#rerollUnlockedBtn").addEventListener("click", () => randomize(false));
 document.querySelector("#copyBtn").addEventListener("click", copyPrompt);
 document.querySelector("#saveBtn").addEventListener("click", savePrompt);
 document.querySelector("#markWrittenBtn").addEventListener("click", markWritten);
