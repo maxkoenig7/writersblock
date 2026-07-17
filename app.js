@@ -60,12 +60,32 @@ const banks = {
     "they can solve the mystery only by confessing their own secret"
   ],
   element: [
-    "a mirror that shows people at their happiest",
-    "a locked room", "a cursed song", "a clock with thirteen hours",
-    "a photograph that changes each day", "a library under the ocean",
-    "a train that only arrives at midnight", "a tattoo that moves",
-    "a forbidden garden", "a broken crown", "a machine that dreams",
-    "a suitcase full of impossible objects", "a language only one person can hear"
+    "an empty chair pulled slightly away from the table",
+    "the smell of oranges in tense rooms",
+    "three knocks from the other side of a wall",
+    "hands reaching for an absent ring",
+    "the phrase 'almost home'",
+    "mud tracked across clean floors",
+    "the color yellow appearing before difficult choices",
+    "a name repeatedly crossed out",
+    "the sound of a distant train after midnight",
+    "rain collecting in abandoned shoes",
+    "a song hummed without anyone noticing",
+    "windows left open in cold weather",
+    "the taste of pennies during a lie",
+    "unopened mail gathering by the door",
+    "fresh flowers in places meant to feel temporary",
+    "people checking the time at the same moment",
+    "one light burning after the rest go dark",
+    "silence immediately after laughter",
+    "water stains shaped like coastlines",
+    "a sentence nobody remembers saying",
+    "the habit of counting exits",
+    "red thread caught on sleeves",
+    "the smell of smoke with no visible fire",
+    "footprints that stop at a doorway",
+    "music heard through apartment walls",
+    "small apologies written in margins"
   ],
   craft: [
     "sensory detail", "subtext in dialogue", "slow-building tension", "atmosphere",
@@ -102,7 +122,7 @@ const labels = {
   setting: "Stage",
   desire: "Hidden Want",
   conflict: "Pressure",
-  element: "Motif",
+  element: "Recurring Detail",
   craft: "Skill Constraint",
   ending: "Ending",
   constraint: "Hard Rule"
@@ -123,7 +143,7 @@ const modeHints = {
   strange: {
     genre: ["magical realism", "psychological horror", "cyberpunk thriller", "dark academia", "fairy tale retelling"],
     mood: ["dreamlike and strange", "unsettling but beautiful", "eerie and restrained"],
-    element: ["a clock with thirteen hours", "a machine that dreams", "a language only one person can hear"]
+    element: ["three knocks from the other side of a wall", "the taste of pennies during a lie", "a sentence nobody remembers saying"]
   },
   dark: {
     genre: ["gothic mystery", "psychological horror", "noir detective story", "post-apocalyptic survival", "dark academia"],
@@ -378,11 +398,11 @@ function buildBrief() {
 
 function openingLineFor(values) {
   const lines = [
-    `By the time ${values.character} noticed ${values.element}, the day had already chosen sides.`,
-    `Nobody in ${values.setting} admitted they had seen ${values.element} first.`,
-    `${capitalize(values.character)} had rehearsed every goodbye except this one.`,
-    `The first strange thing was not ${values.element}; it was how badly everyone wanted to ignore it.`,
-    `In ${values.setting}, the truth arrived dressed as an ordinary mistake.`
+    `By the time ${values.character} understood the pattern, ${values.element} had returned.`,
+    `Nobody in ${values.setting} agreed on what to make of ${values.element}.`,
+    `${capitalize(values.character)} had tried not to think about ${values.element} the first three times.`,
+    `The first strange thing was how often ${values.element} returned.`,
+    `In ${values.setting}, the truth always arrived shortly after ${values.element}.`
   ];
   return choice(lines);
 }
@@ -402,7 +422,7 @@ function composePrompt() {
         ${briefChip("Narrator", state.pov)}
         ${briefChip("Lead", state.character)}
         ${briefChip("Stage", state.setting)}
-        ${briefChip("Motif", state.element)}
+        ${briefChip("Recurring Detail", state.element)}
       </div>
       <div class="mission-card">
         <p>Write a complete 1,000-word <strong>${escapeHtml(state.genre)}</strong> story with a <strong>${escapeHtml(state.mood)}</strong> atmosphere and <strong>${escapeHtml(intensityCopy[intensity.value])}</strong>.</p>
@@ -425,7 +445,7 @@ function renderGlossary() {
     glossaryEntry("Genre", state.genre, explainTerm("genre", state.genre)),
     glossaryEntry("Mood", state.mood, explainMood(state.mood)),
     glossaryEntry("POV", state.pov, explainTerm("pov", state.pov)),
-    glossaryEntry("Motif", state.element, "A recurring object, image, place, or idea that gathers meaning as the story goes."),
+    glossaryEntry("Recurring Detail", state.element, "A repeated image, sound, phrase, gesture, sensation, or ordinary object that gathers meaning as the story goes."),
     glossaryEntry("Skill Constraint", state.craft, explainTerm("craft", state.craft)),
     glossaryEntry("Ending", state.ending, explainTerm("ending", state.ending)),
     glossaryEntry("Hard Rule", state.constraint, "A firm limitation for this draft. Treat it as non-negotiable so it forces you to find a less obvious solution.")
@@ -792,7 +812,7 @@ function renderRevisionSignals(words = countWords(draftText.value)) {
     },
     {
       title: promptFitScore >= 12 ? "Prompt fit" : "Prompt fit",
-      body: promptFitScore >= 12 ? "The draft appears to connect to several pieces of the prompt." : "Look for one more clear link to the character, setting, motif, desire, or pressure.",
+      body: promptFitScore >= 12 ? "The draft appears to connect to several pieces of the prompt." : "Look for one more clear link to the character, setting, recurring detail, desire, or pressure.",
       points: promptFitScore,
       max: 16,
       good: promptFitScore >= 12
