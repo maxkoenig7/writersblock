@@ -24,7 +24,16 @@ const banks = {
     "a con artist pretending to be royal", "a teacher at a haunted school",
     "a cartographer who has never left home", "a soldier who refuses to fight",
     "a journalist chasing an impossible story", "a painter whose portraits change overnight",
-    "a farmer who finds something ancient underground", "a librarian guarding forbidden books"
+    "a farmer who finds something ancient underground", "a librarian guarding forbidden books",
+    "an exhausted public defender", "a nurse on the night shift", "a wedding photographer",
+    "a recently divorced parent", "a tenant organizing their neighbors", "a palace translator",
+    "a war widow running an inn", "an apprentice printer", "a disgraced court physician",
+    "a railway porter carrying a secret", "a union organizer under surveillance",
+    "a town doctor with a damaged reputation", "a homesteader facing foreclosure",
+    "a deputy ordered to arrest a friend", "a traveling photographer who stages scenes",
+    "an orbital mechanic", "a courier with an illegal implant", "a climate refugee",
+    "a diplomat raised on a colony ship", "a scholarship student hiding their past",
+    "an archivist accused of stealing evidence", "a former paramedic", "a scavenger mapping safe roads"
   ],
   setting: [
     "a town built around a sealed well", "a theater that only opens during storms",
@@ -32,7 +41,18 @@ const banks = {
     "a school where every hallway leads to a different decade", "a desert motel with a room nobody rents",
     "a moonlit archive under the courthouse", "a kitchen during the last dinner service of the season",
     "a lighthouse after the lamp goes out", "a colony ship garden where nothing should bloom",
-    "a funeral home on the morning of the wrong funeral", "a museum gallery after closing"
+    "a funeral home on the morning of the wrong funeral", "a museum gallery after closing",
+    "an apartment building during a week-long blackout", "a hospital waiting room before dawn",
+    "a neighborhood bar on its final night", "a family home being emptied after a funeral",
+    "a border town during a disputed election", "a crowded boarding house beside a new railway",
+    "a royal court preparing for a state funeral", "a print shop under government surveillance",
+    "a port city under quarantine", "a mining town after the telegraph line is cut",
+    "an isolated ranch during a drought", "a frontier courthouse on sentencing day",
+    "a stagecoach stranded by floodwater", "a repair station in low orbit",
+    "a megacity transit hub under corporate lockdown", "a research vessel entering an abandoned system",
+    "a flooded district lit by advertisements", "a flooded stadium turned settlement",
+    "a highway checkpoint at the edge of an evacuation zone", "a greenhouse rationing its last viable seeds",
+    "an embassy during a failed ceasefire"
   ],
   desire: [
     "to be forgiven without having to confess",
@@ -155,6 +175,162 @@ const modeHints = {
     mood: ["romantic and awkward", "tender and hopeful", "warm but bittersweet"],
     craft: ["romantic tension", "subtext in dialogue", "emotional restraint"]
   }
+};
+
+const genreWorlds = {
+  "gothic mystery": "gothic",
+  "cozy fantasy": "fantasy",
+  "literary realism": "contemporary",
+  "space opera": "scienceFiction",
+  "psychological horror": "gothic",
+  "magical realism": "contemporary",
+  "romantic comedy": "contemporary",
+  "noir detective story": "urban",
+  "post-apocalyptic survival": "survival",
+  "myth retelling": "fantasy",
+  "historical fiction": "historical",
+  "cyberpunk thriller": "scienceFiction",
+  "family drama": "contemporary",
+  "dark academia": "institutional",
+  "western": "frontier",
+  "fairy tale retelling": "fantasy",
+  "supernatural slice of life": "contemporary",
+  "political intrigue": "political"
+};
+
+const worldHints = {
+  contemporary: {
+    character: [
+      "a retired opera singer", "a journalist chasing an impossible story", "an exhausted public defender",
+      "a nurse on the night shift", "a wedding photographer", "a recently divorced parent",
+      "a tenant organizing their neighbors"
+    ],
+    setting: [
+      "a kitchen during the last dinner service of the season", "a funeral home on the morning of the wrong funeral",
+      "a museum gallery after closing", "an apartment building during a week-long blackout",
+      "a hospital waiting room before dawn", "a neighborhood bar on its final night",
+      "a family home being emptied after a funeral"
+    ]
+  },
+  historical: {
+    character: [
+      "a runaway prince", "a soldier who refuses to fight", "a palace translator", "a war widow running an inn",
+      "an apprentice printer", "a disgraced court physician", "a railway porter carrying a secret",
+      "a union organizer under surveillance"
+    ],
+    setting: [
+      "a border town during a disputed election", "a crowded boarding house beside a new railway",
+      "a royal court preparing for a state funeral", "a print shop under government surveillance",
+      "a port city under quarantine"
+    ]
+  },
+  frontier: {
+    character: [
+      "a soldier who refuses to fight", "a farmer who finds something ancient underground",
+      "a town doctor with a damaged reputation", "a homesteader facing foreclosure",
+      "a deputy ordered to arrest a friend", "a traveling photographer who stages scenes"
+    ],
+    setting: [
+      "a mining town after the telegraph line is cut", "an isolated ranch during a drought",
+      "a frontier courthouse on sentencing day", "a stagecoach stranded by floodwater",
+      "a border town during a disputed election"
+    ]
+  },
+  gothic: {
+    character: [
+      "a retired opera singer", "a lighthouse keeper with one secret", "a detective who hates mysteries",
+      "a teacher at a haunted school", "a painter whose portraits change overnight",
+      "a librarian guarding forbidden books", "an archivist accused of stealing evidence"
+    ],
+    setting: [
+      "a town built around a sealed well", "a theater that only opens during storms",
+      "a desert motel with a room nobody rents", "a moonlit archive under the courthouse",
+      "a lighthouse after the lamp goes out", "a funeral home on the morning of the wrong funeral"
+    ]
+  },
+  fantasy: {
+    character: [
+      "a witch with no magic", "a runaway prince", "a failed prophet", "a con artist pretending to be royal",
+      "a cartographer who has never left home", "a librarian guarding forbidden books",
+      "a child who remembers a past life"
+    ],
+    setting: [
+      "a town built around a sealed well", "a theater that only opens during storms",
+      "a floating market above a sleeping city", "a school where every hallway leads to a different decade",
+      "a moonlit archive under the courthouse", "a train crossing a country that no longer appears on maps"
+    ]
+  },
+  scienceFiction: {
+    character: [
+      "a robot learning grief", "an orbital mechanic", "a courier with an illegal implant",
+      "a climate refugee", "a diplomat raised on a colony ship", "a journalist chasing an impossible story"
+    ],
+    setting: [
+      "a colony ship garden where nothing should bloom", "a repair station in low orbit",
+      "a megacity transit hub under corporate lockdown", "a research vessel entering an abandoned system",
+      "a flooded district lit by advertisements"
+    ]
+  },
+  urban: {
+    character: [
+      "a detective who hates mysteries", "a con artist pretending to be royal",
+      "a journalist chasing an impossible story", "an exhausted public defender",
+      "a nurse on the night shift", "a tenant organizing their neighbors"
+    ],
+    setting: [
+      "a museum gallery after closing", "a moonlit archive under the courthouse",
+      "a funeral home on the morning of the wrong funeral", "an apartment building during a week-long blackout",
+      "a neighborhood bar on its final night", "a hospital waiting room before dawn"
+    ]
+  },
+  institutional: {
+    character: [
+      "a teacher at a haunted school", "a librarian guarding forbidden books",
+      "a journalist chasing an impossible story", "a scholarship student hiding their past",
+      "an archivist accused of stealing evidence"
+    ],
+    setting: [
+      "a school where every hallway leads to a different decade", "a moonlit archive under the courthouse",
+      "a museum gallery after closing", "a print shop under government surveillance"
+    ]
+  },
+  survival: {
+    character: [
+      "a soldier who refuses to fight", "a farmer who finds something ancient underground",
+      "a climate refugee", "a former paramedic", "a scavenger mapping safe roads",
+      "a robot learning grief"
+    ],
+    setting: [
+      "a desert motel with a room nobody rents", "a colony ship garden where nothing should bloom",
+      "a flooded stadium turned settlement", "a highway checkpoint at the edge of an evacuation zone",
+      "a greenhouse rationing its last viable seeds"
+    ]
+  },
+  political: {
+    character: [
+      "a runaway prince", "a journalist chasing an impossible story", "a palace translator",
+      "a union organizer under surveillance", "a diplomat raised on a colony ship",
+      "an archivist accused of stealing evidence"
+    ],
+    setting: [
+      "a border town during a disputed election", "a royal court preparing for a state funeral",
+      "a print shop under government surveillance", "an embassy during a failed ceasefire",
+      "a moonlit archive under the courthouse"
+    ]
+  }
+};
+
+const worldTitleWords = {
+  contemporary: { first: ["Last", "Empty", "Quiet", "Borrowed", "Unfinished"], second: ["House", "Dinner", "Call", "Summer", "Name"] },
+  historical: { first: ["Last", "Broken", "Winter", "Hidden", "Borrowed"], second: ["Crown", "Letter", "Trial", "Harbor", "Oath"] },
+  frontier: { first: ["Dry", "Last", "Broken", "Long", "Empty"], second: ["River", "Telegraph", "Mercy", "Trail", "Town"] },
+  gothic: { first: ["Black", "Last", "Hidden", "Wrong", "Unfinished"], second: ["Room", "Bell", "Portrait", "Lighthouse", "House"] },
+  fantasy: { first: ["Hidden", "Thirteenth", "Forgotten", "Paper", "Midnight"], second: ["Crown", "Garden", "Song", "Map", "Well"] },
+  scienceFiction: { first: ["Last", "Red", "Silent", "Broken", "Borrowed"], second: ["Signal", "Orbit", "Protocol", "Colony", "Memory"] },
+  urban: { first: ["Wrong", "Last", "Cold", "Hidden", "Borrowed"], second: ["Witness", "Case", "Street", "Alibi", "Night"] },
+  institutional: { first: ["Hidden", "Last", "Private", "Wrong", "Unfinished"], second: ["Archive", "Society", "Lesson", "Thesis", "Hall"] },
+  survival: { first: ["Last", "Empty", "Burning", "Broken", "Second"], second: ["Harvest", "Shelter", "Road", "Winter", "Seed"] },
+  political: { first: ["Broken", "Quiet", "Last", "Secret", "False"], second: ["Treaty", "Vote", "Embassy", "Cabinet", "Border"] }
 };
 
 const intensityCopy = {
@@ -300,7 +476,8 @@ function choice(items) {
 
 function choiceForMode(key) {
   const mode = promptMode?.value ?? "balanced";
-  const pool = modeHints[mode]?.[key] ?? banks[key];
+  const world = genreWorlds[state.genre];
+  const pool = worldHints[world]?.[key] ?? modeHints[mode]?.[key] ?? banks[key];
   return choice(pool);
 }
 
@@ -358,6 +535,12 @@ function buildControls() {
     select.value = state[key];
     select.addEventListener("change", () => {
       state[key] = select.value;
+      if (key === "genre") {
+        ["character", "setting"].forEach((dependentKey) => {
+          if (!locked(dependentKey)) state[dependentKey] = choiceForMode(dependentKey);
+        });
+        syncSelects();
+      }
       composePrompt();
     });
 
@@ -390,7 +573,9 @@ function randomize(ignoreLocks = false) {
 }
 
 function buildBrief() {
-  const title = `The ${choice(titleWords.first)} ${choice(titleWords.second)}`;
+  const world = genreWorlds[state.genre];
+  const titlePool = worldTitleWords[world] ?? titleWords;
+  const title = `The ${choice(titlePool.first)} ${choice(titlePool.second)}`;
   const openingLine = openingLineFor(state);
 
   return { title, openingLine };
