@@ -409,24 +409,24 @@ const genreHints = {
 };
 
 const premiseBuilders = {
-  "gothic mystery": (v) => `${capitalize(v.character)} comes to ${v.setting} determined ${v.desire}. Repeated appearances of ${v.element} connect the place's most respected resident to a disappearance everyone considers settled. They cannot expose the connection without confronting the fact that ${v.conflict}.`,
-  "cozy fantasy": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} before an important community tradition begins. The recurrence of ${v.element} reveals that someone has quietly broken the custom that keeps the town safe. Repairing the damage means confronting the fact that ${v.conflict}.`,
-  "literary realism": (v) => `During a final ordinary day at ${v.setting}, ${v.character} is trying ${v.desire}. Each return of ${v.element} exposes more of the private bargain holding two relationships together. Any honest response requires confronting the fact that ${v.conflict}.`,
-  "space opera": (v) => `At ${v.setting}, ${v.character} has one chance ${v.desire} before a system failure strands everyone aboard. The crew notices ${v.element} immediately before each failure, revealing that the crisis is deliberate and tied to the mission's official history. Stopping it requires confronting the fact that ${v.conflict}.`,
-  "psychological horror": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} when reports of ${v.element} begin appearing whenever a memory nobody else will confirm is mentioned. Each occurrence makes it harder to tell evidence from self-deception. They must continue while confronting the fact that ${v.conflict}.`,
-  "magical realism": (v) => `At ${v.setting}, everyone treats ${v.element} as ordinary except ${v.character}, who is trying ${v.desire}. Its recurrence points to a promise the community made and then erased from its own memory. Breaking the silence means confronting the fact that ${v.conflict}.`,
-  "romantic comedy": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} without involving anyone else. A misunderstanding built around ${v.element} ties them to someone perfectly capable of derailing the plan. The partnership can only work if they confront the fact that ${v.conflict}.`,
-  "noir detective story": (v) => `${capitalize(v.character)} arrives at ${v.setting} intending ${v.desire}. Repeated sightings of ${v.element} link a routine favor to a case powerful people paid to bury. Following the connection means confronting the fact that ${v.conflict}.`,
-  "post-apocalyptic survival": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} before the community's remaining supplies run out. Residents notice ${v.element} each time something disappears, revealing that the shortage was engineered to force someone into exile. Preventing it means confronting the fact that ${v.conflict}.`,
-  "myth retelling": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} while living under the consequences of an old divine bargain. Evidence of ${v.element} appears in every version of the tale except the official one, revealing where the bargain was recorded falsely. Correcting the story requires confronting the fact that ${v.conflict}.`,
-  "historical fiction": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} before a public decision becomes irreversible. Each occurrence of ${v.element} points to testimony deliberately omitted from the official record. Bringing it forward means confronting the fact that ${v.conflict}.`,
-  "cyberpunk thriller": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} before a corporate security sweep closes the district. Security footage flags ${v.element} just before records change, revealing that the surveillance system is rewriting evidence in real time. Proving it means confronting the fact that ${v.conflict}.`,
-  "family drama": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} before the family separates again. The recurrence of ${v.element} exposes the agreement that has kept an old betrayal unspoken. Addressing it means confronting the fact that ${v.conflict}.`,
-  "dark academia": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} before an academic committee announces its decision. References to ${v.element} appear throughout a celebrated piece of scholarship, linking it to a student's disappearance. Pursuing that link means confronting the fact that ${v.conflict}.`,
-  "western": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} before the law, weather, or money closes the last route out. Evidence involving ${v.element} marks every place connected to the town's founding lie and reveals who profited from it. Acting on that knowledge means confronting the fact that ${v.conflict}.`,
-  "fairy tale retelling": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} before an old promise comes due. The recurrence of ${v.element} reveals that the promise's protection was given to the wrong person. Changing its terms means confronting the fact that ${v.conflict}.`,
-  "supernatural slice of life": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} during an otherwise ordinary shift. The recurrence of ${v.element} turns out to be a message from someone who cannot leave until a small unfinished obligation is met. Helping them means confronting the fact that ${v.conflict}.`,
-  "political intrigue": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} before a fragile agreement is announced. Evidence involving ${v.element} appears in every altered version of the material the factions are using to negotiate. Exposing the manipulation means confronting the fact that ${v.conflict}.`
+  "gothic mystery": (v) => `${capitalize(v.character)} comes to ${v.setting} determined ${v.desire}. A sealed account connects the place's most respected resident to a disappearance everyone considers settled. They cannot expose the connection without confronting the fact that ${v.conflict}.`,
+  "cozy fantasy": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} before an important community tradition begins. A routine mistake reveals that someone has quietly broken the custom that keeps the town safe. Repairing the damage means confronting the fact that ${v.conflict}.`,
+  "literary realism": (v) => `During a final ordinary day at ${v.setting}, ${v.character} is trying ${v.desire}. A routine task exposes the private bargain holding two relationships together. Any honest response requires confronting the fact that ${v.conflict}.`,
+  "space opera": (v) => `At ${v.setting}, ${v.character} has one chance ${v.desire} before a system failure strands everyone aboard. The failure is deliberate and tied to a lie in the mission's official history. Stopping it requires confronting the fact that ${v.conflict}.`,
+  "psychological horror": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} when a memory nobody else will confirm begins affecting the present. The evidence is convincing enough to follow and personal enough to distrust. They must continue while confronting the fact that ${v.conflict}.`,
+  "magical realism": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} while the community quietly accepts an impossible event. The event points to a promise everyone made and then erased from memory. Breaking the silence means confronting the fact that ${v.conflict}.`,
+  "romantic comedy": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} without involving anyone else. A public misunderstanding ties them to someone perfectly capable of derailing the plan. The partnership can only work if they confront the fact that ${v.conflict}.`,
+  "noir detective story": (v) => `${capitalize(v.character)} arrives at ${v.setting} intending ${v.desire}. A routine favor leads back to a case powerful people paid to bury. Following the connection means confronting the fact that ${v.conflict}.`,
+  "post-apocalyptic survival": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} before the community's remaining supplies run out. The shortage was engineered to force someone into exile. Preventing it means confronting the fact that ${v.conflict}.`,
+  "myth retelling": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} while living under the consequences of an old divine bargain. Every surviving version of the tale records that bargain differently. Correcting the story requires confronting the fact that ${v.conflict}.`,
+  "historical fiction": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} before a public decision becomes irreversible. New testimony was deliberately omitted from the official record. Bringing it forward means confronting the fact that ${v.conflict}.`,
+  "cyberpunk thriller": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} before a corporate security sweep closes the district. The surveillance system is rewriting evidence in real time. Proving it means confronting the fact that ${v.conflict}.`,
+  "family drama": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} before the family separates again. A practical decision exposes the agreement that has kept an old betrayal unspoken. Addressing it means confronting the fact that ${v.conflict}.`,
+  "dark academia": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} before an academic committee announces its decision. A celebrated piece of scholarship is linked to a student's disappearance. Pursuing that link means confronting the fact that ${v.conflict}.`,
+  "western": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} before the law, weather, or money closes the last route out. New evidence reveals who profited from the town's founding lie. Acting on that knowledge means confronting the fact that ${v.conflict}.`,
+  "fairy tale retelling": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} before an old promise comes due. The promise's protection was deliberately given to the wrong person. Changing its terms means confronting the fact that ${v.conflict}.`,
+  "supernatural slice of life": (v) => `${capitalize(v.character)} arrives at ${v.setting} hoping ${v.desire}. Someone connected to the place has died but cannot leave until one small unfinished obligation is met. Helping them means confronting the fact that ${v.conflict}.`,
+  "political intrigue": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} before a fragile agreement is announced. One faction has altered the evidence every side is using to negotiate. Exposing the manipulation means confronting the fact that ${v.conflict}.`
 };
 
 const intensityCopy = {
@@ -510,13 +510,16 @@ const termDictionary = {
 };
 
 const state = {};
+const storyDeck = window.DAILY1000_STORY_DECK ?? [];
+const tunableKeys = ["pov", "craft", "constraint"];
 const storageKeys = {
   saved: "daily1000.savedPrompts",
   log: "daily1000.log",
   draft: "daily1000.currentDraft",
   notes: "daily1000.notes",
   settings: "daily1000.settings",
-  savedOwner: "daily1000.savedPromptsOwner"
+  savedOwner: "daily1000.savedPromptsOwner",
+  recentSeeds: "daily1000.recentSeeds"
 };
 
 const controls = document.querySelector("#controls");
@@ -602,8 +605,8 @@ function writeJson(key, value) {
 
 function buildControls() {
   controls.innerHTML = "";
-  Object.keys(banks).forEach((key) => {
-    state[key] = choiceForMode(key);
+  tunableKeys.forEach((key) => {
+    state[key] = state[key] ?? choice(banks[key]);
 
     const wrap = document.createElement("div");
     wrap.className = "control";
@@ -657,23 +660,50 @@ function syncSelects() {
   });
 }
 
-function randomize(ignoreLocks = false) {
-  Object.keys(banks).forEach((key) => {
-    if (ignoreLocks || !locked(key)) {
-      state[key] = choiceForMode(key);
-    }
+function seedCandidates() {
+  const mode = promptMode.value;
+  const targetIntensity = Number(intensity.value);
+  const modeMatches = storyDeck.filter((seed) => seed.modes.includes(mode));
+  const closeMatches = modeMatches.filter((seed) => Math.abs(seed.intensity - targetIntensity) <= 1);
+  return closeMatches.length >= 4 ? closeMatches : modeMatches;
+}
+
+function chooseSeed() {
+  const candidates = seedCandidates();
+  const recent = readJson(storageKeys.recentSeeds, []);
+  const fresh = candidates.filter((seed) => !recent.includes(seed.id));
+  const pool = fresh.length > 0 ? fresh : candidates;
+  const seed = choice(pool.length > 0 ? pool : storyDeck);
+  if (!seed) return null;
+
+  writeJson(storageKeys.recentSeeds, [seed.id, ...recent.filter((id) => id !== seed.id)].slice(0, 8));
+  return seed;
+}
+
+function generatePrompt() {
+  const seed = chooseSeed();
+  if (!seed) return;
+
+  Object.assign(state, seed);
+  tunableKeys.forEach((key) => {
+    if (!locked(key)) state[key] = choice(banks[key]);
   });
   saveSettings();
   syncSelects();
   composePrompt();
 }
 
+function rerollCraftChoices() {
+  tunableKeys.forEach((key) => {
+    if (!locked(key)) state[key] = choice(banks[key]);
+  });
+  syncSelects();
+  composePrompt();
+}
+
 function buildBrief() {
-  const premiseBuilder = premiseBuilders[state.genre];
-  const premise = premiseBuilder
-    ? premiseBuilder(state)
-    : `${capitalize(state.character)} is trying ${state.desire} at ${state.setting}, but ${state.conflict}.`;
-  const hook = `At ${state.setting}, ${state.character} is trying ${state.desire}.`;
+  const premise = state.premise;
+  const hook = `${capitalize(state.character)} at ${state.setting}.`;
   const title = `${capitalize(state.genre)}: ${capitalize(state.character)}`;
 
   return { title, premise, hook };
@@ -693,6 +723,7 @@ function composePrompt() {
       <div class="brief-grid">
         ${briefChip("Narrator", state.pov)}
         ${briefChip("Atmosphere", state.mood)}
+        ${briefChip("Recurring Detail", state.element)}
         ${briefChip("Skill Constraint", state.craft)}
         ${briefChip("Ending", state.ending)}
       </div>
@@ -1413,7 +1444,7 @@ function setupPwa() {
   });
 
   if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("./service-worker.js?v=10", { updateViaCache: "none" })
+    navigator.serviceWorker.register("./service-worker.js?v=11", { updateViaCache: "none" })
       .then(() => {
         if (!deferredInstallPrompt) {
           appStatus.textContent = "Offline shell cached";
@@ -1452,8 +1483,8 @@ async function installApp() {
   installAppBtn.hidden = true;
 }
 
-document.querySelector("#generatePromptBtn").addEventListener("click", () => randomize(true));
-document.querySelector("#rerollUnlockedBtn").addEventListener("click", () => randomize(false));
+document.querySelector("#generatePromptBtn").addEventListener("click", generatePrompt);
+document.querySelector("#rerollUnlockedBtn").addEventListener("click", rerollCraftChoices);
 document.querySelector("#copyBtn").addEventListener("click", copyPrompt);
 document.querySelector("#saveBtn").addEventListener("click", savePrompt);
 document.querySelector("#markWrittenBtn").addEventListener("click", markWritten);
@@ -1472,7 +1503,7 @@ document.querySelectorAll(".timer-preset").forEach((button) => {
 });
 promptMode.addEventListener("change", () => {
   saveSettings();
-  randomize(false);
+  generatePrompt();
 });
 intensity.addEventListener("input", () => {
   updateIntensityLabel();
@@ -1494,7 +1525,7 @@ window.addEventListener("online", () => {
 
 loadSettings();
 buildControls();
-composePrompt();
+generatePrompt();
 loadDraft();
 loadNotes();
 renderTimer();
