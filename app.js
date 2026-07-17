@@ -223,7 +223,8 @@ const storageKeys = {
   log: "daily1000.log",
   draft: "daily1000.currentDraft",
   notes: "daily1000.notes",
-  settings: "daily1000.settings"
+  settings: "daily1000.settings",
+  savedOwner: "daily1000.savedPromptsOwner"
 };
 
 const controls = document.querySelector("#controls");
@@ -254,12 +255,24 @@ const timerStartBtn = document.querySelector("#timerStartBtn");
 const installAppBtn = document.querySelector("#installAppBtn");
 const appStatus = document.querySelector("#appStatus");
 const appStatusDetail = document.querySelector("#appStatusDetail");
+const accountBar = document.querySelector("#accountBar");
+const accountStatus = document.querySelector("#accountStatus");
+const syncStatus = document.querySelector("#syncStatus");
+const authForm = document.querySelector("#authForm");
+const authEmail = document.querySelector("#authEmail");
+const sendLoginBtn = document.querySelector("#sendLoginBtn");
+const signedInControls = document.querySelector("#signedInControls");
+const userEmail = document.querySelector("#userEmail");
+const signOutBtn = document.querySelector("#signOutBtn");
 
 let currentBrief = {};
 let timerSeconds = 25 * 60;
 let timerTotalSeconds = 25 * 60;
 let timerInterval = null;
 let deferredInstallPrompt = null;
+let supabaseClient = null;
+let currentUser = null;
+let activeUserId = null;
 
 function choice(items) {
   return items[Math.floor(Math.random() * items.length)];
@@ -507,16 +520,215 @@ function flashButton(selector, text) {
   }, 1100);
 }
 
-function savePrompt() {
-  const saved = readJson(storageKeys.saved, []);
-  saved.unshift({
-    date: new Date().toLocaleString(),
+async function savePrompt() {
+  const saved = readJson(storageKeys.saved, []).map(normalizeSavedEntry);
+  saved.unshift(normalizeSavedEntry({
     title: currentBrief.title,
     text: promptText()
-  });
-  writeJson(storageKeys.saved, saved.slice(0, 30));
+  }));
+  writeJson(storageKeys.saved, saved.slice(0, 100));
   renderSaved();
   flashButton("#saveBtn", "Saved");
+
+  if (currentUser) {
+    await syncSavedPromptsSafely();
+  }
+}
+
+function createId() {
+  if (crypto.randomUUID) return crypto.randomUUID();
+  return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (character) =>
+    (Number(character) ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> Number(character) / 4).toString(16)
+  );
+}
+
+function normalizeSavedEntry(entry) {
+  const parsedDate = Date.parse(entry.date ?? entry.createdAt ?? "");
+  const createdAt = entry.createdAt ?? (Number.isNaN(parsedDate) ? new Date().toISOString() : new Date(parsedDate).toISOString());
+  return {
+    id: entry.id ?? createId(),
+    date: entry.date ?? new Date(createdAt).toLocaleString(),
+    title: entry.title ?? "Untitled Prompt",
+    text: entry.text ?? "",
+    createdAt
+  };
+}
+
+function remotePromptToLocal(prompt) {
+  return normalizeSavedEntry({
+    id: prompt.id,
+    date: new Date(prompt.created_at).toLocaleString(),
+    title: prompt.title,
+    text: prompt.prompt_text,
+    createdAt: prompt.created_at
+  });
+}
+
+function promptSignature(prompt) {
+  return `${prompt.title}\n${prompt.text}`;
+}
+
+function setSyncState(state, title, detail) {
+  accountBar.dataset.state = state;
+  accountStatus.textContent = title;
+  syncStatus.textContent = detail;
+}
+
+async function syncSavedPrompts() {
+  if (!supabaseClient || !currentUser) return;
+
+  setSyncState("syncing", "Syncing", "Merging saved prompts");
+  const localOwner = localStorage.getItem(storageKeys.savedOwner);
+  const localPrompts = localOwner && localOwner !== currentUser.id
+    ? []
+    : readJson(storageKeys.saved, []).map(normalizeSavedEntry);
+  const { data: initialRemote, error: fetchError } = await supabaseClient
+    .from("saved_prompts")
+    .select("id, title, prompt_text, created_at, updated_at")
+    .order("created_at", { ascending: false })
+    .limit(200);
+
+  if (fetchError) throw fetchError;
+
+  const remotePrompts = (initialRemote ?? []).map(remotePromptToLocal);
+  const remoteIds = new Set(remotePrompts.map((prompt) => prompt.id));
+  const remoteSignatures = new Set(remotePrompts.map(promptSignature));
+  const pending = localPrompts.filter((prompt) =>
+    !remoteIds.has(prompt.id) && !remoteSignatures.has(promptSignature(prompt))
+  );
+
+  if (pending.length > 0) {
+    const rows = pending.map((prompt) => ({
+      id: prompt.id,
+      user_id: currentUser.id,
+      title: prompt.title,
+      prompt_text: prompt.text,
+      created_at: prompt.createdAt,
+      updated_at: new Date().toISOString()
+    }));
+    const { error: uploadError } = await supabaseClient
+      .from("saved_prompts")
+      .upsert(rows, { onConflict: "id" });
+    if (uploadError) throw uploadError;
+  }
+
+  const { data: syncedRemote, error: syncFetchError } = await supabaseClient
+    .from("saved_prompts")
+    .select("id, title, prompt_text, created_at, updated_at")
+    .order("created_at", { ascending: false })
+    .limit(200);
+
+  if (syncFetchError) throw syncFetchError;
+
+  writeJson(storageKeys.saved, (syncedRemote ?? []).map(remotePromptToLocal));
+  localStorage.setItem(storageKeys.savedOwner, currentUser.id);
+  renderSaved();
+  setSyncState("synced", "Cloud synced", `${(syncedRemote ?? []).length} saved prompt${(syncedRemote ?? []).length === 1 ? "" : "s"}`);
+}
+
+async function syncSavedPromptsSafely() {
+  try {
+    await syncSavedPrompts();
+  } catch (error) {
+    console.error("Saved prompt sync failed", error);
+    setSyncState("error", "Sync paused", "Local copy is safe; retry after reconnecting");
+  }
+}
+
+async function handleAuthSubmit(event) {
+  event.preventDefault();
+  if (!supabaseClient) return;
+
+  sendLoginBtn.disabled = true;
+  setSyncState("syncing", "Sending link", "Check your email in a moment");
+  const { error } = await supabaseClient.auth.signInWithOtp({
+    email: authEmail.value.trim(),
+    options: {
+      emailRedirectTo: "https://maxkoenig7.github.io/writersblock/"
+    }
+  });
+  sendLoginBtn.disabled = false;
+
+  if (error) {
+    setSyncState("error", "Could not send link", error.message);
+    return;
+  }
+
+  authEmail.value = "";
+  setSyncState("syncing", "Check your email", "Open the sign-in link on this device");
+}
+
+async function handleSession(session) {
+  const nextUser = session?.user ?? null;
+  if (nextUser?.id === activeUserId) return;
+
+  currentUser = nextUser;
+  activeUserId = nextUser?.id ?? null;
+  const signedIn = Boolean(currentUser);
+  authForm.hidden = signedIn;
+  signedInControls.hidden = !signedIn;
+  userEmail.textContent = currentUser?.email ?? "Signed in";
+
+  if (signedIn) {
+    await syncSavedPromptsSafely();
+  } else {
+    setSyncState("local", "Local only", "Sign in to share saved prompts across devices");
+  }
+}
+
+async function signOut() {
+  if (!supabaseClient) return;
+  const { error } = await supabaseClient.auth.signOut();
+  if (error) {
+    setSyncState("error", "Could not sign out", error.message);
+    return;
+  }
+  writeJson(storageKeys.saved, []);
+  localStorage.removeItem(storageKeys.savedOwner);
+  renderSaved();
+}
+
+async function clearSavedPrompts() {
+  if (currentUser && supabaseClient) {
+    setSyncState("syncing", "Clearing prompts", "Updating the cloud library");
+    const { error } = await supabaseClient
+      .from("saved_prompts")
+      .delete()
+      .eq("user_id", currentUser.id);
+    if (error) {
+      setSyncState("error", "Could not clear prompts", "Nothing was removed");
+      return;
+    }
+  }
+
+  writeJson(storageKeys.saved, []);
+  renderSaved();
+  if (currentUser) {
+    setSyncState("synced", "Cloud synced", "No saved prompts");
+  }
+}
+
+async function initializeCloudSync() {
+  const config = window.DAILY1000_SUPABASE;
+  if (!window.supabase?.createClient || !config?.url || !config?.publishableKey) {
+    authForm.hidden = true;
+    setSyncState("error", "Cloud unavailable", "Local saving still works");
+    return;
+  }
+
+  supabaseClient = window.supabase.createClient(config.url, config.publishableKey);
+  authForm.addEventListener("submit", handleAuthSubmit);
+  signOutBtn.addEventListener("click", signOut);
+  supabaseClient.auth.onAuthStateChange((_event, session) => {
+    void handleSession(session);
+  });
+
+  const { data, error } = await supabaseClient.auth.getSession();
+  if (error) {
+    setSyncState("error", "Cloud unavailable", "Local saving still works");
+    return;
+  }
+  await handleSession(data.session);
 }
 
 function countWords(text) {
@@ -985,9 +1197,9 @@ dropZone.addEventListener("dragleave", () => {
   dropZone.classList.remove("is-dragging");
 });
 dropZone.addEventListener("drop", handleDrop);
-document.querySelector("#clearSavedBtn").addEventListener("click", () => {
-  writeJson(storageKeys.saved, []);
-  renderSaved();
+document.querySelector("#clearSavedBtn").addEventListener("click", clearSavedPrompts);
+window.addEventListener("online", () => {
+  if (currentUser) void syncSavedPromptsSafely();
 });
 
 loadSettings();
@@ -999,3 +1211,7 @@ renderTimer();
 renderLog();
 renderSaved();
 setupPwa();
+void initializeCloudSync().catch((error) => {
+  console.error("Cloud sync initialization failed", error);
+  setSyncState("error", "Cloud unavailable", "Local saving still works");
+});

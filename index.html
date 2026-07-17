@@ -53,6 +53,26 @@
         <button id="installAppBtn" class="primary-btn" type="button" hidden>Install App</button>
       </section>
 
+      <section id="accountBar" class="account-bar" data-state="local" aria-label="Cloud sync account">
+        <div class="account-state">
+          <span class="sync-dot" aria-hidden="true"></span>
+          <div>
+            <strong id="accountStatus">Local only</strong>
+            <span id="syncStatus">Saved prompts stay on this device</span>
+          </div>
+        </div>
+
+        <form id="authForm" class="auth-form">
+          <input id="authEmail" type="email" inputmode="email" autocomplete="email" placeholder="Email address" aria-label="Email address" required>
+          <button id="sendLoginBtn" class="primary-btn" type="submit">Email Sign-In Link</button>
+        </form>
+
+        <div id="signedInControls" class="signed-in-controls" hidden>
+          <span id="userEmail"></span>
+          <button id="signOutBtn" class="ghost-btn" type="button">Sign Out</button>
+        </div>
+      </section>
+
       <section class="workspace" aria-label="Prompt generator">
         <aside class="panel controls-panel">
           <div class="panel-heading">
@@ -208,6 +228,8 @@
       </section>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
     <script src="app.js"></script>
   </body>
 </html>

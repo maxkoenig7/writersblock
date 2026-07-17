@@ -27,10 +27,10 @@ The app is PWA-ready. After hosting it over HTTPS:
 - iPhone: open the site in a browser, use Share, then Add to Home Screen.
 - Android: open the site in Chrome or another PWA-capable browser and use Install App when prompted.
 
-The app shell is cached for offline loading after the first hosted visit. Drafts and logs still use browser storage until the Supabase sync layer is added.
+The app shell is cached for offline loading after the first hosted visit. Saved prompts can sync through Supabase after email sign-in; drafts, notes, settings, and logs still use browser storage.
 
 ## Sync Layer Next
 
-For cross-device sync, add Supabase Auth and database tables for drafts, daily logs, saved prompts, notes, and settings. Use Row Level Security policies so every row is scoped to the signed-in user.
+Supabase Auth and saved-prompt sync are connected. The remaining sync work covers drafts, daily logs, notes, and settings. Row Level Security policies scope every cloud row to the signed-in user.
 
 The starter database schema is in `supabase-schema.sql`.

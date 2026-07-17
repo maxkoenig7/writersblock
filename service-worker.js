@@ -1,9 +1,10 @@
-const CACHE_NAME = "daily-1000-v5";
+const CACHE_NAME = "daily-1000-v6";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css",
   "./app.js",
+  "./supabase-config.js",
   "./manifest.webmanifest",
   "./icon-192.png",
   "./icon-512.png"
@@ -38,7 +39,9 @@ self.addEventListener("fetch", (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
           return response;
         })
-        .catch(() => caches.match("./index.html"));
+        .catch(() => event.request.mode === "navigate"
+          ? caches.match("./index.html")
+          : Response.error());
     })
   );
 });
