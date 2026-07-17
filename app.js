@@ -1328,7 +1328,7 @@ function setupPwa() {
   });
 
   if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("./service-worker.js")
+    navigator.serviceWorker.register("./service-worker.js?v=9", { updateViaCache: "none" })
       .then(() => {
         if (!deferredInstallPrompt) {
           appStatus.textContent = "Offline shell cached";

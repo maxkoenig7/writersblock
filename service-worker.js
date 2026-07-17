@@ -1,10 +1,10 @@
-const CACHE_NAME = "daily-1000-v8";
+const CACHE_NAME = "daily-1000-v9";
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./styles.css",
-  "./app.js",
-  "./supabase-config.js",
+  "./styles.css?v=9",
+  "./app.js?v=9",
+  "./supabase-config.js?v=9",
   "./manifest.webmanifest",
   "./icon-192.png",
   "./icon-512.png"
