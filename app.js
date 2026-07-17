@@ -148,11 +148,6 @@ const labels = {
   constraint: "Hard Rule"
 };
 
-const titleWords = {
-  first: ["Last", "Hidden", "Borrowed", "Bright", "Wrong", "Thirteenth", "Forgotten", "Unfinished", "Paper", "Midnight"],
-  second: ["Room", "Map", "Song", "Garden", "Letter", "Weather", "Crown", "Mirror", "Promise", "Signal"]
-};
-
 const modeHints = {
   balanced: {},
   cozy: {
@@ -320,17 +315,118 @@ const worldHints = {
   }
 };
 
-const worldTitleWords = {
-  contemporary: { first: ["Last", "Empty", "Quiet", "Borrowed", "Unfinished"], second: ["House", "Dinner", "Call", "Summer", "Name"] },
-  historical: { first: ["Last", "Broken", "Winter", "Hidden", "Borrowed"], second: ["Crown", "Letter", "Trial", "Harbor", "Oath"] },
-  frontier: { first: ["Dry", "Last", "Broken", "Long", "Empty"], second: ["River", "Telegraph", "Mercy", "Trail", "Town"] },
-  gothic: { first: ["Black", "Last", "Hidden", "Wrong", "Unfinished"], second: ["Room", "Bell", "Portrait", "Lighthouse", "House"] },
-  fantasy: { first: ["Hidden", "Thirteenth", "Forgotten", "Paper", "Midnight"], second: ["Crown", "Garden", "Song", "Map", "Well"] },
-  scienceFiction: { first: ["Last", "Red", "Silent", "Broken", "Borrowed"], second: ["Signal", "Orbit", "Protocol", "Colony", "Memory"] },
-  urban: { first: ["Wrong", "Last", "Cold", "Hidden", "Borrowed"], second: ["Witness", "Case", "Street", "Alibi", "Night"] },
-  institutional: { first: ["Hidden", "Last", "Private", "Wrong", "Unfinished"], second: ["Archive", "Society", "Lesson", "Thesis", "Hall"] },
-  survival: { first: ["Last", "Empty", "Burning", "Broken", "Second"], second: ["Harvest", "Shelter", "Road", "Winter", "Seed"] },
-  political: { first: ["Broken", "Quiet", "Last", "Secret", "False"], second: ["Treaty", "Vote", "Embassy", "Cabinet", "Border"] }
+const genreHints = {
+  "gothic mystery": {
+    mood: ["eerie and restrained", "tense and claustrophobic", "melancholy and luminous", "bleak and elegant", "unsettling but beautiful"],
+    ending: ["a bittersweet revelation", "an unresolved mystery", "a final betrayal", "a shocking twist", "a confession that changes the meaning of the story"]
+  },
+  "cozy fantasy": {
+    mood: ["tender and hopeful", "warm but bittersweet", "wonder-filled", "nostalgic and intimate", "romantic and awkward"],
+    ending: ["a quiet emotional realization", "a hopeful final image", "a transformation", "a bittersweet revelation"],
+    desire: ["to keep one ordinary day from turning into a disaster", "to protect a person who would never ask for help", "to finish one last duty with dignity", "to be chosen for the first time"],
+    conflict: ["the only person who can help them is their enemy", "they must decide whether safety is worth living inside a lie", "the person they trust most has been lying for a kind reason", "their greatest wish comes with a cost they cannot pay twice"]
+  },
+  "literary realism": {
+    character: ["a retired opera singer", "an exhausted public defender", "a nurse on the night shift", "a wedding photographer", "a recently divorced parent", "a tenant organizing their neighbors"],
+    setting: ["a kitchen during the last dinner service of the season", "a funeral home on the morning of the wrong funeral", "an apartment building during a week-long blackout", "a hospital waiting room before dawn", "a neighborhood bar on its final night", "a family home being emptied after a funeral"],
+    mood: ["melancholy and luminous", "warm but bittersweet", "nostalgic and intimate", "quietly devastating", "tender and hopeful"],
+    ending: ["a bittersweet revelation", "a quiet emotional realization", "an unresolved mystery", "a hopeful final image", "a confession that changes the meaning of the story"],
+    desire: ["to be forgiven without having to confess", "to keep one ordinary day from turning into a disaster", "to protect a person who would never ask for help", "to finish one last duty with dignity", "to tell the truth without losing their home"],
+    conflict: ["the truth would destroy someone they love", "they must decide whether safety is worth living inside a lie", "everyone else believes they are guilty", "the person they trust most has been lying for a kind reason", "they can solve the mystery only by confessing their own secret"]
+  },
+  "space opera": {
+    character: ["a robot learning grief", "an orbital mechanic", "a climate refugee", "a diplomat raised on a colony ship"],
+    setting: ["a colony ship garden where nothing should bloom", "a repair station in low orbit", "a research vessel entering an abandoned system"],
+    mood: ["urgent and cinematic", "wonder-filled", "tense and claustrophobic", "bleak and elegant"],
+    ending: ["a victory with a cost", "a shocking twist", "a tragic sacrifice", "a transformation", "an unresolved mystery"]
+  },
+  "psychological horror": {
+    mood: ["eerie and restrained", "tense and claustrophobic", "dreamlike and strange", "unsettling but beautiful", "bleak and elegant"],
+    ending: ["a shocking twist", "an unresolved mystery", "a tragic sacrifice", "a confession that changes the meaning of the story", "a transformation"]
+  },
+  "magical realism": {
+    mood: ["dreamlike and strange", "wonder-filled", "melancholy and luminous", "unsettling but beautiful", "warm but bittersweet"],
+    ending: ["a bittersweet revelation", "a quiet emotional realization", "a hopeful final image", "a transformation", "a circular ending that echoes the first line"]
+  },
+  "romantic comedy": {
+    character: ["a retired opera singer", "an exhausted public defender", "a nurse on the night shift", "a wedding photographer", "a recently divorced parent", "a tenant organizing their neighbors"],
+    setting: ["a kitchen during the last dinner service of the season", "a museum gallery after closing", "an apartment building during a week-long blackout", "a hospital waiting room before dawn", "a neighborhood bar on its final night"],
+    mood: ["wry and fast-moving", "romantic and awkward", "tender and hopeful", "funny with a dark edge"],
+    ending: ["a hopeful final image", "a quiet emotional realization", "a transformation", "a bittersweet revelation", "a confession that changes the meaning of the story"],
+    desire: ["to keep one ordinary day from turning into a disaster", "to protect a person who would never ask for help", "to be chosen for the first time", "to tell the truth without losing their home"],
+    conflict: ["the only person who can help them is their enemy", "they must decide whether safety is worth living inside a lie", "the person they trust most has been lying for a kind reason", "the truth would destroy someone they love"]
+  },
+  "noir detective story": {
+    mood: ["funny with a dark edge", "bleak and elegant", "eerie and restrained", "tense and claustrophobic"],
+    ending: ["a victory with a cost", "an unresolved mystery", "a final betrayal", "a confession that changes the meaning of the story", "a bittersweet revelation"]
+  },
+  "post-apocalyptic survival": {
+    mood: ["tense and claustrophobic", "bleak and elegant", "urgent and cinematic", "quietly devastating"],
+    ending: ["a victory with a cost", "a tragic sacrifice", "a hopeful final image", "a transformation", "an unresolved mystery"]
+  },
+  "myth retelling": {
+    mood: ["melancholy and luminous", "dreamlike and strange", "wonder-filled", "bleak and elegant", "tender and hopeful"],
+    ending: ["a tragic sacrifice", "a transformation", "a bittersweet revelation", "a circular ending that echoes the first line", "a victory with a cost"]
+  },
+  "historical fiction": {
+    mood: ["melancholy and luminous", "tense and claustrophobic", "nostalgic and intimate", "urgent and cinematic", "warm but bittersweet"],
+    ending: ["a bittersweet revelation", "a victory with a cost", "a quiet emotional realization", "a final betrayal", "a confession that changes the meaning of the story"]
+  },
+  "cyberpunk thriller": {
+    character: ["a courier with an illegal implant", "a climate refugee", "an orbital mechanic", "a journalist chasing an impossible story"],
+    setting: ["a megacity transit hub under corporate lockdown", "a flooded district lit by advertisements", "a repair station in low orbit"],
+    mood: ["tense and claustrophobic", "urgent and cinematic", "bleak and elegant", "unsettling but beautiful"],
+    ending: ["a shocking twist", "a victory with a cost", "a final betrayal", "an unresolved mystery", "a transformation"]
+  },
+  "family drama": {
+    character: ["a retired opera singer", "a nurse on the night shift", "a wedding photographer", "a recently divorced parent", "a tenant organizing their neighbors"],
+    setting: ["a kitchen during the last dinner service of the season", "a funeral home on the morning of the wrong funeral", "an apartment building during a week-long blackout", "a family home being emptied after a funeral"],
+    mood: ["warm but bittersweet", "quietly devastating", "nostalgic and intimate", "tender and hopeful", "funny with a dark edge"],
+    ending: ["a bittersweet revelation", "a quiet emotional realization", "a hopeful final image", "a confession that changes the meaning of the story", "a transformation"],
+    desire: ["to be forgiven without having to confess", "to keep one ordinary day from turning into a disaster", "to protect a person who would never ask for help", "to recover a memory everyone else insists never existed", "to tell the truth without losing their home"],
+    conflict: ["the truth would destroy someone they love", "they must decide whether safety is worth living inside a lie", "the person they trust most has been lying for a kind reason", "they can solve the mystery only by confessing their own secret"]
+  },
+  "dark academia": {
+    mood: ["eerie and restrained", "melancholy and luminous", "tense and claustrophobic", "bleak and elegant"],
+    ending: ["a final betrayal", "an unresolved mystery", "a shocking twist", "a confession that changes the meaning of the story", "a tragic sacrifice"]
+  },
+  "western": {
+    mood: ["tense and claustrophobic", "wry and fast-moving", "bleak and elegant", "melancholy and luminous"],
+    ending: ["a victory with a cost", "a bittersweet revelation", "a tragic sacrifice", "an unresolved mystery", "a confession that changes the meaning of the story"]
+  },
+  "fairy tale retelling": {
+    mood: ["wonder-filled", "dreamlike and strange", "eerie and restrained", "unsettling but beautiful"],
+    ending: ["a transformation", "a circular ending that echoes the first line", "a bittersweet revelation", "a hopeful final image", "a tragic sacrifice"]
+  },
+  "supernatural slice of life": {
+    mood: ["warm but bittersweet", "wonder-filled", "funny with a dark edge", "tender and hopeful", "nostalgic and intimate"],
+    ending: ["a quiet emotional realization", "a hopeful final image", "a bittersweet revelation", "a transformation", "a circular ending that echoes the first line"]
+  },
+  "political intrigue": {
+    mood: ["tense and claustrophobic", "urgent and cinematic", "wry and fast-moving", "bleak and elegant"],
+    ending: ["a final betrayal", "a victory with a cost", "a confession that changes the meaning of the story", "an unresolved mystery", "a shocking twist"]
+  }
+};
+
+const premiseBuilders = {
+  "gothic mystery": (v) => `${capitalize(v.character)} comes to ${v.setting} determined ${v.desire}. Repeated appearances of ${v.element} connect the place's most respected resident to a disappearance everyone considers settled. They cannot expose the connection without confronting the fact that ${v.conflict}.`,
+  "cozy fantasy": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} before an important community tradition begins. The recurrence of ${v.element} reveals that someone has quietly broken the custom that keeps the town safe. Repairing the damage means confronting the fact that ${v.conflict}.`,
+  "literary realism": (v) => `During a final ordinary day at ${v.setting}, ${v.character} is trying ${v.desire}. Each return of ${v.element} exposes more of the private bargain holding two relationships together. Any honest response requires confronting the fact that ${v.conflict}.`,
+  "space opera": (v) => `At ${v.setting}, ${v.character} has one chance ${v.desire} before a system failure strands everyone aboard. The crew notices ${v.element} immediately before each failure, revealing that the crisis is deliberate and tied to the mission's official history. Stopping it requires confronting the fact that ${v.conflict}.`,
+  "psychological horror": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} when reports of ${v.element} begin appearing whenever a memory nobody else will confirm is mentioned. Each occurrence makes it harder to tell evidence from self-deception. They must continue while confronting the fact that ${v.conflict}.`,
+  "magical realism": (v) => `At ${v.setting}, everyone treats ${v.element} as ordinary except ${v.character}, who is trying ${v.desire}. Its recurrence points to a promise the community made and then erased from its own memory. Breaking the silence means confronting the fact that ${v.conflict}.`,
+  "romantic comedy": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} without involving anyone else. A misunderstanding built around ${v.element} ties them to someone perfectly capable of derailing the plan. The partnership can only work if they confront the fact that ${v.conflict}.`,
+  "noir detective story": (v) => `${capitalize(v.character)} arrives at ${v.setting} intending ${v.desire}. Repeated sightings of ${v.element} link a routine favor to a case powerful people paid to bury. Following the connection means confronting the fact that ${v.conflict}.`,
+  "post-apocalyptic survival": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} before the community's remaining supplies run out. Residents notice ${v.element} each time something disappears, revealing that the shortage was engineered to force someone into exile. Preventing it means confronting the fact that ${v.conflict}.`,
+  "myth retelling": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} while living under the consequences of an old divine bargain. Evidence of ${v.element} appears in every version of the tale except the official one, revealing where the bargain was recorded falsely. Correcting the story requires confronting the fact that ${v.conflict}.`,
+  "historical fiction": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} before a public decision becomes irreversible. Each occurrence of ${v.element} points to testimony deliberately omitted from the official record. Bringing it forward means confronting the fact that ${v.conflict}.`,
+  "cyberpunk thriller": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} before a corporate security sweep closes the district. Security footage flags ${v.element} just before records change, revealing that the surveillance system is rewriting evidence in real time. Proving it means confronting the fact that ${v.conflict}.`,
+  "family drama": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} before the family separates again. The recurrence of ${v.element} exposes the agreement that has kept an old betrayal unspoken. Addressing it means confronting the fact that ${v.conflict}.`,
+  "dark academia": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} before an academic committee announces its decision. References to ${v.element} appear throughout a celebrated piece of scholarship, linking it to a student's disappearance. Pursuing that link means confronting the fact that ${v.conflict}.`,
+  "western": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} before the law, weather, or money closes the last route out. Evidence involving ${v.element} marks every place connected to the town's founding lie and reveals who profited from it. Acting on that knowledge means confronting the fact that ${v.conflict}.`,
+  "fairy tale retelling": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} before an old promise comes due. The recurrence of ${v.element} reveals that the promise's protection was given to the wrong person. Changing its terms means confronting the fact that ${v.conflict}.`,
+  "supernatural slice of life": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} during an otherwise ordinary shift. The recurrence of ${v.element} turns out to be a message from someone who cannot leave until a small unfinished obligation is met. Helping them means confronting the fact that ${v.conflict}.`,
+  "political intrigue": (v) => `At ${v.setting}, ${v.character} is trying ${v.desire} before a fragile agreement is announced. Evidence involving ${v.element} appears in every altered version of the material the factions are using to negotiate. Exposing the manipulation means confronting the fact that ${v.conflict}.`
 };
 
 const intensityCopy = {
@@ -477,7 +573,7 @@ function choice(items) {
 function choiceForMode(key) {
   const mode = promptMode?.value ?? "balanced";
   const world = genreWorlds[state.genre];
-  const pool = worldHints[world]?.[key] ?? modeHints[mode]?.[key] ?? banks[key];
+  const pool = genreHints[state.genre]?.[key] ?? worldHints[world]?.[key] ?? modeHints[mode]?.[key] ?? banks[key];
   return choice(pool);
 }
 
@@ -573,46 +669,35 @@ function randomize(ignoreLocks = false) {
 }
 
 function buildBrief() {
-  const world = genreWorlds[state.genre];
-  const titlePool = worldTitleWords[world] ?? titleWords;
-  const title = `The ${choice(titlePool.first)} ${choice(titlePool.second)}`;
-  const openingLine = openingLineFor(state);
+  const premiseBuilder = premiseBuilders[state.genre];
+  const premise = premiseBuilder
+    ? premiseBuilder(state)
+    : `${capitalize(state.character)} is trying ${state.desire} at ${state.setting}, but ${state.conflict}.`;
+  const hook = `At ${state.setting}, ${state.character} is trying ${state.desire}.`;
+  const title = `${capitalize(state.genre)}: ${capitalize(state.character)}`;
 
-  return { title, openingLine };
-}
-
-function openingLineFor(values) {
-  const lines = [
-    `By the time ${values.character} understood the pattern, ${values.element} had returned.`,
-    `Nobody in ${values.setting} agreed on what to make of ${values.element}.`,
-    `${capitalize(values.character)} had tried not to think about ${values.element} the first three times.`,
-    `The first strange thing was how often ${values.element} returned.`,
-    `In ${values.setting}, the truth always arrived shortly after ${values.element}.`
-  ];
-  return choice(lines);
+  return { title, premise, hook };
 }
 
 function composePrompt() {
   currentBrief = buildBrief();
-  heroLine.textContent = currentBrief.openingLine;
+  heroLine.textContent = currentBrief.hook;
   updateIntensityLabel();
   promptOutput.innerHTML = `
     <div class="brief-header">
       <span class="brief-kicker">${escapeHtml(state.mood)} ${escapeHtml(state.genre)}</span>
-      <h3>${escapeHtml(currentBrief.title)}</h3>
-      <p class="brief-line">${escapeHtml(currentBrief.openingLine)}</p>
+      <h3>Story Premise</h3>
+      <p class="brief-line">${escapeHtml(currentBrief.premise)}</p>
     </div>
     <div class="brief-body">
       <div class="brief-grid">
         ${briefChip("Narrator", state.pov)}
-        ${briefChip("Lead", state.character)}
-        ${briefChip("Stage", state.setting)}
-        ${briefChip("Recurring Detail", state.element)}
+        ${briefChip("Atmosphere", state.mood)}
+        ${briefChip("Skill Constraint", state.craft)}
+        ${briefChip("Ending", state.ending)}
       </div>
       <div class="mission-card">
-        <p>Write a complete 1,000-word <strong>${escapeHtml(state.genre)}</strong> story with a <strong>${escapeHtml(state.mood)}</strong> atmosphere and <strong>${escapeHtml(intensityCopy[intensity.value])}</strong>.</p>
-        <p>The character wants <strong>${escapeHtml(state.desire)}</strong>, but the pressure is that <strong>${escapeHtml(state.conflict)}</strong>.</p>
-        <p>Skill constraint: use <strong>${escapeHtml(state.craft)}</strong>. The ending should land as <strong>${escapeHtml(state.ending)}</strong>.</p>
+        <p>Write this as a complete <strong>1,000-word story</strong> with <strong>${escapeHtml(intensityCopy[intensity.value])}</strong>.</p>
         <p><strong>Hard rule:</strong> ${escapeHtml(state.constraint)}</p>
       </div>
     </div>
@@ -1328,7 +1413,7 @@ function setupPwa() {
   });
 
   if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("./service-worker.js?v=9", { updateViaCache: "none" })
+    navigator.serviceWorker.register("./service-worker.js?v=10", { updateViaCache: "none" })
       .then(() => {
         if (!deferredInstallPrompt) {
           appStatus.textContent = "Offline shell cached";
